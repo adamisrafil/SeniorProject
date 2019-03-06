@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:test_flutter1/login_signup_page.dart';
-import 'package:test_flutter1/authentication.dart';
-import 'package:test_flutter1/home_page.dart';
+import 'package:SeniorProject/login_signup_page.dart';
+import 'package:SeniorProject/authentication.dart';
+import 'package:SeniorProject/home_page.dart';
 
 class RootPage extends StatefulWidget {
   RootPage({this.auth});

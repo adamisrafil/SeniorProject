@@ -1,4 +1,4 @@
-# test_flutter1
+# SeniorProject
 
 A new Flutter application.
 

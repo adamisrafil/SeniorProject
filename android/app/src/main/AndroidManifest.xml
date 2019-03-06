@@ -14,7 +14,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="test_flutter1"
+        android:label="SeniorProject"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

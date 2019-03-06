@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_flutter1/authentication.dart';
-import 'package:test_flutter1/root_page.dart';
+import 'package:SeniorProject/authentication.dart';
+import 'package:SeniorProject/root_page.dart';
 
 void main() {
   runApp(new MyApp());
