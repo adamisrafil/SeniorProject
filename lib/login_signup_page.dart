@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class LoginSignUpPage extends StatefulWidget {
   LoginSignUpPage({this.auth, this.onSignedIn});
