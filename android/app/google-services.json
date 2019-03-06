@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "532178742422",
-    "firebase_url": "https://test-53c4d.firebaseio.com",
-    "project_id": "test-53c4d",
-    "storage_bucket": "test-53c4d.appspot.com"
+    "project_number": "47981799566",
+    "firebase_url": "https://loginpage-cd502.firebaseio.com",
+    "project_id": "loginpage-cd502",
+    "storage_bucket": "loginpage-cd502.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:532178742422:android:253e1da980d40be4",
+        "mobilesdk_app_id": "1:47981799566:android:de4f225c560354c7",
         "android_client_info": {
-          "package_name": "com.example.flutterlogindemo"
+          "package_name": "com.example.testflutter1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "532178742422-qvbal1o34p2ss7q01icggsrd8mf8mctf.apps.googleusercontent.com",
+          "client_id": "47981799566-ren2mbk9fontdfpdlsrgsf7vkj372h44.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCwlJkwYMyOn8g7Ccg-Upy0qCDiMIgrRDs"
+          "current_key": "AIzaSyCJe8cvkeWwLumJyEqy5jKvYl6rXqpJ9sQ"
         }
       ],
       "services": {
