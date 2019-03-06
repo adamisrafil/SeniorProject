@@ -44,9 +44,8 @@ flutter:
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
-assets:
-  - assets/flutter-icon.png
-  - assets/icon.png
+  assets:
+    - assets/gen_icon.png
   # For details regarding adding assets from package dependencies, see
   # https://flutter.io/assets-and-images/#from-packages
 
