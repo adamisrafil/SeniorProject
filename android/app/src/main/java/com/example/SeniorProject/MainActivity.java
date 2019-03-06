@@ -1,4 +1,4 @@
-package com.example.testflutter1;
+package com.example.SeniorProject;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
