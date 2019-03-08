@@ -51,8 +51,8 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
           print('Signed in: $userId');
         } else {
           userId = await widget.auth.signUp(_email, _password);
-          Map<String, dynamic> firestoreUser = <String, dynamic>{"email": _email};
-          await Firestore.instance.collection("users").document(userId).setData(firestoreUser);
+//          Map<String, dynamic> firestoreUser = <String, dynamic>{"email": _email};
+//          await Firestore.instance.collection("users").document(userId).setData(firestoreUser);
           widget.auth.sendEmailVerification();
           _showVerifyEmailSentDialog();
           print('Signed up user: $userId');
