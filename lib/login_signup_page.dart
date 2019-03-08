@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class LoginSignUpPage extends StatefulWidget {
   LoginSignUpPage({this.auth, this.onSignedIn});
@@ -49,6 +51,8 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
           print('Signed in: $userId');
         } else {
           userId = await widget.auth.signUp(_email, _password);
+//          Map<String, dynamic> firestoreUser = <String, dynamic>{"email": _email};
+//          await Firestore.instance.collection("users").document(userId).setData(firestoreUser);
           widget.auth.sendEmailVerification();
           _showVerifyEmailSentDialog();
           print('Signed up user: $userId');
