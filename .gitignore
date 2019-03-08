@@ -9,13 +9,14 @@
 .buildlog/
 .history
 .svn/
-.idea/workspace.xml
+
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
+.idea/workspace.xml
 
 # Visual Studio Code related
 .vscode/
