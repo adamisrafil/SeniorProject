@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                   controller: _textEditingController,
                   autofocus: true,
                   decoration: new InputDecoration(
-                    labelText: 'Add new todo',
+                    labelText: 'Add Classes',
                   ),
                 ))
               ],
@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _showTodoList() {
+  /*Widget _showTodoList() {
     if (_todoList.length > 0) {
       return ListView.builder(
           shrinkWrap: true,
@@ -236,32 +236,214 @@ class _HomePageState extends State<HomePage> {
             );
           });
     } else {
-      return Center(child: Text("Welcome. Your list is empty",
+      return Center(child: Text("Welcome. Your class schedule is empty",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 30.0),));
+        style: TextStyle(fontSize: 20.0),));
     }
+  }*/
+
+  Widget _showClassDashboard() {
+    return Scaffold(
+      backgroundColor: Colors.white10,
+      body: Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Hi asshole',
+                textDirection: TextDirection.ltr,
+                style: TextStyle(color: Colors.tealAccent, fontSize: 32.9)),
+            InkWell(
+              child: Text('Button'),
+//            backgroundColor: Colors.red,
+              highlightColor: Colors.amberAccent,
+              onTap: ()=> debugPrint('button tapped!'),
+
+            )
+          ],
+        ),
+      ),
+
+
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Flutter login demo'),
+          title: new Text('Welcome'),
           actions: <Widget>[
+            IconButton(icon: Icon(Icons.add), onPressed: () => debugPrint("icon tapped!")),
+            IconButton(icon: Icon(Icons.search), onPressed: () => debugPrint("search tapped!"), color: Colors.black,),
             new FlatButton(
                 child: new Text('Logout',
                     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
                 onPressed: _signOut)
           ],
         ),
-        body: _showTodoList(),
-        floatingActionButton: FloatingActionButton(
+        body: _showClassDashboard(),
+        /*floatingActionButton: FloatingActionButton(
           onPressed: () {
             _showDialog(context);
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),
-        )
+        )*/
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the Drawer if there isn't enough vertical
+        // space to fit everything.
+        child: Container(color: Colors.white10,child : ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text("Moe"),
+              accountEmail: Text("msulta03@nyit.edu"),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.teal,
+
+                child: Text(
+                  "M",
+                  style: TextStyle(fontSize: 40.0),
+                ),
+              ),
+              decoration: BoxDecoration(color: Colors.black87),
+            ),
+            ListTile(
+              title: Text("ID"),
+              leading: Icon(Icons.home),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => NewPage("Page two")));
+              },
+            ),
+            ListTile(
+              title: Text('Evalutation Forms'),
+              leading: Icon(Icons.account_box),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('NYIT Forums'),
+              leading: Icon(Icons.account_box),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Event Calendar'),
+              leading: Icon(Icons.account_box),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+
+          ],
+        )),
+      ),
     );
   }
 }
+/*class Welcome extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: new AppBar(
+        backgroundColor: Colors.greenAccent[900],
+        title: new Text('Fency Day'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.add), onPressed: () => debugPrint("icon tapped!")),
+          IconButton(icon: Icon(Icons.search), onPressed: () => debugPrint("search tapped!"), color: Colors.black,),
+        ],
+      ),
+      backgroundColor: Colors.white10,
+      body: Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Hi asshole',
+                textDirection: TextDirection.ltr,
+                style: TextStyle(color: Colors.tealAccent, fontSize: 32.9)),
+            InkWell(
+              child: Text('Button'),
+//            backgroundColor: Colors.red,
+              highlightColor: Colors.amberAccent,
+              onTap: ()=> debugPrint('bitton tapped!'),
+
+            )
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the Drawer if there isn't enough vertical
+        // space to fit everything.
+        child: Container(color: Colors.white10,child : ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text("Moe"),
+              accountEmail: Text("msulta03@nyit.edu"),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.teal,
+
+                child: Text(
+                  "M",
+                  style: TextStyle(fontSize: 40.0),
+                ),
+              ),
+              decoration: BoxDecoration(color: Colors.black87),
+            ),
+            ListTile(
+              title: Text("Item 1"),
+              leading: Icon(Icons.home),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Item 2'),
+              leading: Icon(Icons.account_box),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        )),
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: null,
+          backgroundColor: Colors.amberAccent,
+          child: Icon(Icons.add, color: Colors.black,)),
+    );
+  }
+}*/
