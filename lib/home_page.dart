@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:SeniorProject/todo.dart';
+import 'navigation_pages.dart';
 import 'dart:async';
 
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.onSignedOut})
+  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.courses})
       : super(key: key);
 
+  final CourseDB courses;
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final String userId;
@@ -18,8 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Todo> _todoList;
-
+  //List<Todo> _todoList;
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   StreamSubscription<Event> _onTodoAddedSubscription;
   StreamSubscription<Event> _onTodoChangedSubscription;
 
-  Query _todoQuery;
+  //Query _todoQuery;
 
   bool _isEmailVerified = false;
 
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
 
     _checkEmailVerification();
 
-    _todoList = new List();
+    /*_todoList = new List();
     _todoQuery = _database
         .reference()
         .child("todo")
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
         .equalTo(widget.userId);
     _onTodoAddedSubscription = _todoQuery.onChildAdded.listen(_onEntryAdded);
     _onTodoChangedSubscription =
-        _todoQuery.onChildChanged.listen(_onEntryChanged);
+        _todoQuery.onChildChanged.listen(_onEntryChanged);*/
   }
 
   void _checkEmailVerification() async {
@@ -117,7 +118,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  _onEntryChanged(Event event) {
+ /* _onEntryChanged(Event event) {
     var oldEntry = _todoList.singleWhere((entry) {
       return entry.key == event.snapshot.key;
     });
@@ -126,13 +127,13 @@ class _HomePageState extends State<HomePage> {
       _todoList[_todoList.indexOf(oldEntry)] =
           Todo.fromSnapshot(event.snapshot);
     });
-  }
+  }*/
 
-  _onEntryAdded(Event event) {
+  /*_onEntryAdded(Event event) {
     setState(() {
       _todoList.add(Todo.fromSnapshot(event.snapshot));
     });
-  }
+  }*/
 
   _signOut() async {
     try {
@@ -143,7 +144,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  _addNewTodo(String todoItem) {
+ /* _addNewTodo(String todoItem) {
     if (todoItem.length > 0) {
       Todo todo = new Todo(todoItem.toString(), widget.userId, false);
       _database.reference().child("todo").push().set(todo.toJson());
@@ -165,9 +166,9 @@ class _HomePageState extends State<HomePage> {
         _todoList.removeAt(index);
       });
     });
-  }
+  }*/
 
-  _showDialog(BuildContext context) async {
+  /*_showDialog(BuildContext context) async {
     _textEditingController.clear();
     await showDialog<String>(
         context: context,
@@ -193,14 +194,14 @@ class _HomePageState extends State<HomePage> {
               new FlatButton(
                   child: const Text('Save'),
                   onPressed: () {
-                    _addNewTodo(_textEditingController.text.toString());
+                    //_addNewTodo(_textEditingController.text.toString());
                     Navigator.pop(context);
                   })
             ],
           );
         }
     );
-  }
+  }*/
 
   /*Widget _showTodoList() {
     if (_todoList.length > 0) {
@@ -252,7 +253,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Hi asshole',
+            Text('Courses here',
                 textDirection: TextDirection.ltr,
                 style: TextStyle(color: Colors.tealAccent, fontSize: 32.9)),
             InkWell(
@@ -274,18 +275,13 @@ class _HomePageState extends State<HomePage> {
       appBar: new AppBar(
         title: new Text('Welcome'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.add),
-              onPressed: () => debugPrint("icon tapped!")),
-          IconButton(icon: Icon(Icons.search),
-            onPressed: () => debugPrint("search tapped!"),
-            color: Colors.black,),
           new FlatButton(
               child: new Text('Logout',
                   style: new TextStyle(fontSize: 17.0, color: Colors.white)),
               onPressed: _signOut)
         ],
       ),
-      body: _showClassDashboard(),
+      //body: _showClassDashboard(),
       /*floatingActionButton: FloatingActionButton(
           onPressed: () {
             _showDialog(context);
@@ -293,7 +289,7 @@ class _HomePageState extends State<HomePage> {
           tooltip: 'Increment',
           child: Icon(Icons.add),
         )*/
-      drawer: Drawer(
+     /* drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the Drawer if there isn't enough vertical
         // space to fit everything.
@@ -361,61 +357,39 @@ class _HomePageState extends State<HomePage> {
 
           ],
         )),
-      ),
+      ),*/
     );
   }
 }
 
-/*void main() => runApp(new dashboardTest());
+void main() => runApp(new dashboardTest());
+
 class dashboardTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Welcome',
-      ),
+      title: 'Welcome, User',
     home: new naviG(),
     routes:<String, WidgetBuilder> {
 
-    )
+    }
+    );
   }
-
 }
 
 class naviG extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Welcome'),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.add),
-              onPressed: () => debugPrint("icon tapped!")),
-          IconButton(icon: Icon(Icons.search),
-            onPressed: () => debugPrint("search tapped!"),
-            color: Colors.black,),
-          new FlatButton(
-              child: new Text('Logout',
-                  style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-              onPressed: _signOut)
-        ],
-      ),
-      body: _showClassDashboard(),
-      /*floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _showDialog(context);
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        )*/
-      drawer: Drawer(
+      drawer: new Drawer (
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the Drawer if there isn't enough vertical
         // space to fit everything.
-        child: Container(color: Colors.white10, child: ListView(
+        child: new ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
-            UserAccountsDrawerHeader(
+            new UserAccountsDrawerHeader(
               accountName: Text("Moe"),
               accountEmail: Text("msulta03@nyit.edu"),
               currentAccountPicture: CircleAvatar(
@@ -428,7 +402,7 @@ class naviG extends StatelessWidget {
               ),
               decoration: BoxDecoration(color: Colors.black87),
             ),
-            ListTile(
+            new ListTile(
               title: Text("ID"),
               leading: Icon(Icons.home),
               trailing: Icon(Icons.arrow_forward),
@@ -436,10 +410,16 @@ class naviG extends StatelessWidget {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
+                Navigator.of(context).pop();
+                /*Navigator.of(context).push(
+                  new PageRouteBuilder(
+                  pageBuilder: (BuildContext context,_,__){
+                    return new idPage();
+                  })
+                );*/
               },
             ),
-            ListTile(
+            new ListTile(
               title: Text('Evalutation Forms'),
               leading: Icon(Icons.account_box),
               trailing: Icon(Icons.arrow_forward),
@@ -450,7 +430,7 @@ class naviG extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
+            new ListTile(
               title: Text('NYIT Forums'),
               leading: Icon(Icons.account_box),
               trailing: Icon(Icons.arrow_forward),
@@ -461,7 +441,7 @@ class naviG extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
+            new ListTile(
               title: Text('Event Calendar'),
               leading: Icon(Icons.account_box),
               trailing: Icon(Icons.arrow_forward),
@@ -475,91 +455,24 @@ class naviG extends StatelessWidget {
 
           ],
         )),
+      );
+  }
+}
+
+class idPage extends StatelessWidget {
+  static final String routeName = '/idPage';
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return new Scaffold(
+      drawer: new Drawer(),
+      appBar: new AppBar(
+        title: new Text('QR ID'),
+      ),
+      body: new Center(
+        child: new Text('QR GOES HERE', style: new TextStyle(fontSize: 20),)
       ),
     );
   }
 }
-
-class Welcome extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.greenAccent[900],
-        title: new Text('Fency Day'),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.add), onPressed: () => debugPrint("icon tapped!")),
-          IconButton(icon: Icon(Icons.search), onPressed: () => debugPrint("search tapped!"), color: Colors.black,),
-        ],
-      ),
-      backgroundColor: Colors.white10,
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Hi asshole',
-                textDirection: TextDirection.ltr,
-                style: TextStyle(color: Colors.tealAccent, fontSize: 32.9)),
-            InkWell(
-              child: Text('Button'),
-//            backgroundColor: Colors.red,
-              highlightColor: Colors.amberAccent,
-              onTap: ()=> debugPrint('bitton tapped!'),
-
-            )
-          ],
-        ),
-      ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the Drawer if there isn't enough vertical
-        // space to fit everything.
-        child: Container(color: Colors.white10,child : ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text("Moe"),
-              accountEmail: Text("msulta03@nyit.edu"),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.teal,
-
-                child: Text(
-                  "M",
-                  style: TextStyle(fontSize: 40.0),
-                ),
-              ),
-              decoration: BoxDecoration(color: Colors.black87),
-            ),
-            ListTile(
-              title: Text("Item 1"),
-              leading: Icon(Icons.home),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Item 2'),
-              leading: Icon(Icons.account_box),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        )),
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: null,
-          backgroundColor: Colors.amberAccent,
-          child: Icon(Icons.add, color: Colors.black,)),
-    );
-  }
-}*/
