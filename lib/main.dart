@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:SeniorProject/root_page.dart';
+import 'package:SeniorProject/qrPage.dart';
+import 'package:SeniorProject/evalPage.dart';
+import 'package:SeniorProject/forumPage.dart';
+import 'package:SeniorProject/eventPage.dart';
 
 void main() {
   runApp(new MyApp());
@@ -15,6 +19,13 @@ class MyApp extends StatelessWidget {
         theme: new ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: new RootPage(auth: new Auth()));
+        home: new RootPage(auth: new Auth()),
+        routes: <String, WidgetBuilder> {
+          '/qrPage' : (BuildContext context) => new NavQrPage(),
+          '/evalPage' : (BuildContext context) => new EvalPage(),
+          '/forumPage' : (BuildContext context) => new forumPage(),
+          '/eventPage' : (BuildContext context) => new eventPage(),
+    },
+    );
   }
 }
