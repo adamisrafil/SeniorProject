@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:SeniorProject/todo.dart';
-import 'navigation_pages.dart';
 import 'dart:async';
 
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.courses})
+  HomePage({Key key, this.auth, this.userId, this.onSignedOut})
       : super(key: key);
 
-  final CourseDB courses;
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final String userId;
@@ -270,6 +268,7 @@ class _HomePageState extends State<HomePage> {
 
     );
   }
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
@@ -289,7 +288,7 @@ class _HomePageState extends State<HomePage> {
           tooltip: 'Increment',
           child: Icon(Icons.add),
         )*/
-     /* drawer: Drawer(
+      drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the Drawer if there isn't enough vertical
         // space to fit everything.
@@ -315,122 +314,23 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(Icons.home),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('/qrPage');
               },
             ),
             ListTile(
               title: Text('Evalutation Forms'),
               leading: Icon(Icons.account_box),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('NYIT Forums'),
-              leading: Icon(Icons.account_box),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Event Calendar'),
-              leading: Icon(Icons.account_box),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-
-          ],
-        )),
-      ),*/
-    );
-  }
-}
-
-void main() => runApp(new dashboardTest());
-
-class dashboardTest extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Welcome, User',
-    home: new naviG(),
-    routes:<String, WidgetBuilder> {
-
-    }
-    );
-  }
-}
-
-class naviG extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      drawer: new Drawer (
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the Drawer if there isn't enough vertical
-        // space to fit everything.
-        child: new ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: Text("Moe"),
-              accountEmail: Text("msulta03@nyit.edu"),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.teal,
-
-                child: Text(
-                  "M",
-                  style: TextStyle(fontSize: 40.0),
-                ),
-              ),
-              decoration: BoxDecoration(color: Colors.black87),
-            ),
-            new ListTile(
-              title: Text("ID"),
-              leading: Icon(Icons.home),
               trailing: Icon(Icons.arrow_forward),
               onTap: () {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
                 Navigator.of(context).pop();
-                /*Navigator.of(context).push(
-                  new PageRouteBuilder(
-                  pageBuilder: (BuildContext context,_,__){
-                    return new idPage();
-                  })
-                );*/
+                Navigator.of(context).pushNamed('/evalPage');
               },
             ),
-            new ListTile(
-              title: Text('Evalutation Forms'),
-              leading: Icon(Icons.account_box),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            new ListTile(
+            ListTile(
               title: Text('NYIT Forums'),
               leading: Icon(Icons.account_box),
               trailing: Icon(Icons.arrow_forward),
@@ -438,10 +338,11 @@ class naviG extends StatelessWidget {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('/forumPage');
               },
             ),
-            new ListTile(
+            ListTile(
               title: Text('Event Calendar'),
               leading: Icon(Icons.account_box),
               trailing: Icon(Icons.arrow_forward),
@@ -449,30 +350,16 @@ class naviG extends StatelessWidget {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
-                Navigator.pop(context);
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('/eventPage');
               },
             ),
 
           ],
         )),
-      );
-  }
-}
-
-class idPage extends StatelessWidget {
-  static final String routeName = '/idPage';
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return new Scaffold(
-      drawer: new Drawer(),
-      appBar: new AppBar(
-        title: new Text('QR ID'),
-      ),
-      body: new Center(
-        child: new Text('QR GOES HERE', style: new TextStyle(fontSize: 20),)
       ),
     );
   }
 }
+
+
