@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder> {
           '/qrPage' : (BuildContext context) => new NavQrPage(),
           '/evalPage' : (BuildContext context) => new EvalPage(),
-          '/forumPage' : (BuildContext context) => new forumPage(),
-          '/eventPage' : (BuildContext context) => new eventPage(),
+          '/forumPage' : (BuildContext context) => new ForumPage(),
+          '/eventPage' : (BuildContext context) => new EventPage(),
     },
     );
   }
