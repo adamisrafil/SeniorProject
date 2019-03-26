@@ -10,11 +10,13 @@
 .history
 .svn/
 
+
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
+.idea/workspace.xml
 
 # Visual Studio Code related
 .vscode/
