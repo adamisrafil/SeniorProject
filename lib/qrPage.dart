@@ -20,7 +20,7 @@ class _NavQrPageState extends State<NavQrPage> {
         child: Column(
           children: <Widget>[
             new QrImage(
-              data: "1234567890",
+              data: "1067231",
               size: 200.0, /*new Text('QR CODE GOES HERE', style: new TextStyle(fontSize: 20),),*/
             ),
             new Text("Name: Angela Tong", style: TextStyle(fontSize: 20),),
