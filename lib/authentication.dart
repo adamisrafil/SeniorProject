@@ -29,7 +29,7 @@ class Auth implements BaseAuth {
     FirebaseUser user = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    Map<String, dynamic> firestoreUser = <String, dynamic>{"email": email};
+    Map<String, dynamic> firestoreUser = <String, dynamic>{"email": email, "role:": "student"};
     await Firestore.instance.collection("users").document(user.uid).setData(firestoreUser);
     return user.uid;
   }
