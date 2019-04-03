@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/userManager.dart';
 import 'package:SeniorProject/authentication.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:SeniorProject/root_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:SeniorProject/user.dart';
@@ -45,6 +44,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
       mCurrentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
     });
   }
+
   bool isValidUserCode(String input) {
     final RegExp regex = new RegExp('123456789');
     return regex.hasMatch(input);
@@ -70,6 +70,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
       print('TODO - we will write the submission part next...');
     }
   }
+
   void showMessage(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState
         .showSnackBar(new SnackBar(backgroundColor: color, content: new Text(message)));
