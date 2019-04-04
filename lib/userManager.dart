@@ -13,8 +13,8 @@ class UserManager {
       Map<String, dynamic> userData = Map();
       userData["name"] = user.name;
       userData["ID"] = user.ID;
-      userData["Role"] = user.role;
-      Firestore.instance.collection("users").document(uid).updateData(userData);
+//      userData["Role"] = user.role;
+      Firestore.instance.collection("users").document(uid).setData(userData, merge: true);
     }
 
     Future<String> getUserEmail(String userID) async {
@@ -38,7 +38,7 @@ class UserManager {
         return userName;
       }
       else{
-        return "Error getting email";
+        return "Error getting name";
       }
     }
 }

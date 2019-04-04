@@ -63,9 +63,9 @@ class _UserSettingsPage extends State<UserSettingsPage> {
       form.save(); //This invokes each onSaved event
 
       print('Form save called, newContact is now up to date...');
-      print('Email: ${updatedUser.name}');
-      print('Dob: ${updatedUser.ID}');
-      print('Phone: ${updatedUser.name}');
+      print('Name: ${updatedUser.name}');
+      print('ID: ${updatedUser.ID}');
+//      print('Role: ${updatedUser.role}');
       print('========================================');
       print('Submitting to back end...');
       print('TODO - we will write the submission part next...');
@@ -106,20 +106,22 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                   inputFormatters: [new LengthLimitingTextInputFormatter(7)],
                     onSaved: (val) => updatedUser.ID = val
                 ),
-                new TextFormField(
-                    obscureText: true,
-                    decoration: new InputDecoration(
-                        hintText: 'User Role Code',
-                        labelText: 'Enter code (for faculty and staff only)',
-                    ),
-                ),
+//                new TextFormField(
+//                    obscureText: true,
+//                    decoration: new InputDecoration(
+//                        hintText: 'User Role Code',
+//                        labelText: 'Enter code (for faculty and staff only)',
+//                    ),
+//                ),
+                new Text("Hit submit button twice in order to send data."),
                 new Container(
-                    padding: const EdgeInsets.only(left: 40.0, top: 20.0),
+                    padding: const EdgeInsets.only(left: 40.0, top: 20.0, right: 40.0),
                     child: new RaisedButton(
                       child: const Text('Submit'),
                       onPressed: _submitForm,
                     )
                 ),
+                new Text("Changes will take effect next time you close and reopen page"),
               ],
             )
         ),
