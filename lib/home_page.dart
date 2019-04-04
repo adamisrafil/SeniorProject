@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:SeniorProject/todo.dart';
 import 'dart:async';
 
-
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.onSignedOut})
       : super(key: key);
@@ -94,8 +93,8 @@ class _HomePageState extends State<HomePage> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Verify your account"),
-          content: new Text(
-              "Link to verify account has been sent to your email"),
+          content:
+          new Text("Link to verify account has been sent to your email"),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Dismiss"),
@@ -116,7 +115,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
- /* _onEntryChanged(Event event) {
+  /* _onEntryChanged(Event event) {
     var oldEntry = _todoList.singleWhere((entry) {
       return entry.key == event.snapshot.key;
     });
@@ -142,7 +141,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
- /* _addNewTodo(String todoItem) {
+  /* _addNewTodo(String todoItem) {
     if (todoItem.length > 0) {
       Todo todo = new Todo(todoItem.toString(), widget.userId, false);
       _database.reference().child("todo").push().set(todo.toJson());
@@ -243,33 +242,249 @@ class _HomePageState extends State<HomePage> {
     }
   }*/
 
-  Widget _showClassDashboard() {
-    return Scaffold(
-      backgroundColor: Colors.white10,
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Courses here',
-                textDirection: TextDirection.ltr,
-                style: TextStyle(color: Colors.tealAccent, fontSize: 32.9)),
-            InkWell(
-              child: Text('Button'),
-//            backgroundColor: Colors.red,
-              highlightColor: Colors.amberAccent,
-              onTap: () => debugPrint('button tapped!'),
+  Widget _showClassDashboard(widthcard, lengthcard) {
+    return Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 40.0),
+        child: Center(
+            child: Container(
+              width: widthcard,
+              height: lengthcard,
+              decoration: BoxDecoration(
+                  color: Colors.teal,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black87,
+                      blurRadius: 10.0,
+                      // has the effect of softening the shadow
+                      spreadRadius: 10.0,
+                      // has the effect of extending the shadow
+                      offset: Offset(
+                        1.0,
+                        1.0,
+                      ),
+                    )
+                  ]),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                      width: widthcard,
+                      height: lengthcard * 0.12,
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius:
+                          BorderRadius.only(bottomRight: Radius.circular(35.0)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white30,
+                              blurRadius: 5.0,
+                              // has the effect of softening the shadow
+                              spreadRadius: 1.0,
+                              // has the effect of extending the shadow
+                              offset: Offset(
+                                0.0,
+                                2.0,
+                              ),
+                            )
+                          ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Monday' /*TODO: It would be nice for the day to be pulled automatically*/,
+                          style: TextStyle(fontSize: widthcard * 0.09
+//                            fontFamily:
+                          ),
+                        ),
+                      )),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                    child: Container(
+                        width: widthcard * 0.9,
+                        height: lengthcard * 0.12,
+                        decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(25.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white30,
+                                blurRadius: 5.0,
+                                // has the effect of softening the shadow
+                                spreadRadius: 1.0,
+                                // has the effect of extending the shadow
+                                offset: Offset(
+                                  0.0,
+                                  2.0,
+                                ),
+                              )
+                            ]),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
+                                  style: TextStyle(fontSize: widthcard * 0.055
 
-            )
-          ],
-        ),
-      ),
+//                            fontFamily:
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+                                  child: Icon(
+                                    Icons
+                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
+                                  ),
+                                )
+                              ]),
+                        )),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                    child: Container(
+                        width: widthcard * 0.9,
+                        height: lengthcard * 0.12,
+                        decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(25.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white30,
+                                blurRadius: 5.0,
+                                // has the effect of softening the shadow
+                                spreadRadius: 1.0,
+                                // has the effect of extending the shadow
+                                offset: Offset(
+                                  0.0,
+                                  2.0,
+                                ),
+                              )
+                            ]),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
+                                  style: TextStyle(fontSize: widthcard * 0.055
 
+//                            fontFamily:
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+                                  child: Icon(
+                                    Icons
+                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
+                                  ),
+                                )
+                              ]),
+                        )),
+                  ),
+                  Padding(
+                    //TODO: Make these views into a function.
+                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                    child: Container(
+                        width: widthcard * 0.9,
+                        height: lengthcard * 0.12,
+                        decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(25.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white30,
+                                blurRadius: 5.0,
+                                // has the effect of softening the shadow
+                                spreadRadius: 1.0,
+                                // has the effect of extending the shadow
+                                offset: Offset(
+                                  0.0,
+                                  2.0,
+                                ),
+                              )
+                            ]),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
+                                  style: TextStyle(fontSize: widthcard * 0.055
 
-    );
+//                            fontFamily:
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+                                  child: Icon(
+                                    Icons
+                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
+                                  ),
+                                )
+                              ]),
+                        )),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                    child: Container(
+                        width: widthcard * 0.9,
+                        height: lengthcard * 0.12,
+                        decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(25.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white30,
+                                blurRadius: 5.0,
+                                // has the effect of softening the shadow
+                                spreadRadius: 1.0,
+                                // has the effect of extending the shadow
+                                offset: Offset(
+                                  0.0,
+                                  2.0,
+                                ),
+                              )
+                            ]),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
+                                  style: TextStyle(fontSize: widthcard * 0.055
+
+//                            fontFamily:
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
+                                  child: Icon(
+                                    Icons
+                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
+                                  ),
+                                )
+                              ]),
+                        )),
+                  ),
+                ],
+              ),
+            )));
   }
+
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData =
+    MediaQuery.of(context); //get aspect ratio of screen
+    final double widthcard = queryData.size.width * 0.85;
+    final double lengthcard = queryData.size.height * 0.75;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Welcome'),
@@ -280,86 +495,90 @@ class _HomePageState extends State<HomePage> {
               onPressed: _signOut)
         ],
       ),
-      //body: _showClassDashboard(),
-      /*floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _showDialog(context);
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        )*/
+      body: _showClassDashboard(widthcard, lengthcard),
+      floatingActionButton: Container(
+        height: 100.0,
+        width: 100.0,
+        child: FittedBox(
+          child: FloatingActionButton(
+              onPressed: () {},
+              backgroundColor: Colors.amberAccent,
+              child: Icon(
+                Icons.add,
+                color: Colors.black,
+              )),
+        ),
+      ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the Drawer if there isn't enough vertical
         // space to fit everything.
-        child: Container(color: Colors.white10, child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text("Moe"),
-              accountEmail: Text("msulta03@nyit.edu"),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.teal,
-
-                child: Text(
-                  "M",
-                  style: TextStyle(fontSize: 40.0),
+        child: Container(
+            color: Colors.white10,
+            child: ListView(
+              // Important: Remove any padding from the ListView.
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  accountName: Text("Moe"),
+                  accountEmail: Text("msulta03@nyit.edu"),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: Colors.teal,
+                    child: Text(
+                      "M",
+                      style: TextStyle(fontSize: 40.0),
+                    ),
+                  ),
+                  decoration: BoxDecoration(color: Colors.black87),
                 ),
-              ),
-              decoration: BoxDecoration(color: Colors.black87),
-            ),
-            ListTile(
-              title: Text("ID"),
-              leading: Icon(Icons.home),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/qrPage');
-              },
-            ),
-            ListTile(
-              title: Text('Evalutation Forms'),
-              leading: Icon(Icons.account_box),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/evalPage');
-              },
-            ),
-            ListTile(
-              title: Text('NYIT Forums'),
-              leading: Icon(Icons.account_box),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/forumPage');
-              },
-            ),
-            ListTile(
-              title: Text('Event Calendar'),
-              leading: Icon(Icons.account_box),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/eventPage');
-              },
-            ),
-
-          ],
-        )),
+                ListTile(
+                  title: Text("ID"),
+                  leading: Icon(Icons.home),
+                  trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/qrPage');
+                  },
+                ),
+                ListTile(
+                  title: Text('Evalutation Forms'),
+                  leading: Icon(Icons.account_box),
+                  trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    // Update the state of the app
+                    // ...
+                    // Then close the drawer
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/evalPage');
+                  },
+                ),
+                ListTile(
+                  title: Text('NYIT Forums'),
+                  leading: Icon(Icons.account_box),
+                  trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    // Update the state of the app
+                    // ...
+                    // Then close the drawer
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/forumPage');
+                  },
+                ),
+                ListTile(
+                  title: Text('Event Calendar'),
+                  leading: Icon(Icons.account_box),
+                  trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    // Update the state of the app
+                    // ...
+                    // Then close the drawer
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/eventPage');
+                  },
+                ),
+              ],
+            )),
       ),
     );
   }
 }
-
-
