@@ -6,15 +6,20 @@ import 'package:SeniorProject/todo.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:SeniorProject/userManager.dart';
+import 'package:SeniorProject/user.dart';
+
+import 'package:SeniorProject/root_page.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.email})
+  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root})
       : super(key: key);
 
   final BaseAuth auth;
+  final RootPage root;
   final VoidCallback onSignedOut;
   final String userId;
-  final UserManager email;
+  final UserManager userManager;
+  final User user;
 
   @override
   State<StatefulWidget> createState() => new _HomePageState();
@@ -22,6 +27,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //List<Todo> _todoList;
+
+  String accountStatus = '******';
+  FirebaseUser mCurrentUser;
+  FirebaseAuth _auth;
+  User updatedUser = new User();
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -32,12 +42,36 @@ class _HomePageState extends State<HomePage> {
   //Query _todoQuery;
 
   bool _isEmailVerified = false;
+  var userManager = new UserManager();
+  String usersEmail;
+
 
   @override
   void initState() {
     super.initState();
+    _auth = FirebaseAuth.instance;
+    _getCurrentUser();
+    print('here outside async');
 
     _checkEmailVerification();
+  }
+
+  _getEmail() async{
+    await userManager.getUserEmail(mCurrentUser.uid).then((String res) {
+      print("Email incoming: " + res);
+      setState(() {
+        res != null ? usersEmail = res.toString() : "Having trouble";
+      });
+    });
+  }
+
+  _getCurrentUser () async {
+    mCurrentUser = await _auth.currentUser();
+    print('Hello ' + mCurrentUser.uid);
+    setState(() {
+      mCurrentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
+    });
+    _getEmail();
   }
 
   void _checkEmailVerification() async {
@@ -109,23 +143,6 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  /* _onEntryChanged(Event event) {
-    var oldEntry = _todoList.singleWhere((entry) {
-      return entry.key == event.snapshot.key;
-    });
-
-    setState(() {
-      _todoList[_todoList.indexOf(oldEntry)] =
-          Todo.fromSnapshot(event.snapshot);
-    });
-  }*/
-
-  /*_onEntryAdded(Event event) {
-    setState(() {
-      _todoList.add(Todo.fromSnapshot(event.snapshot));
-    });
-  }*/
-
   _signOut() async {
     try {
       await widget.auth.signOut();
@@ -134,107 +151,6 @@ class _HomePageState extends State<HomePage> {
       print(e);
     }
   }
-
-  /* _addNewTodo(String todoItem) {
-    if (todoItem.length > 0) {
-      Todo todo = new Todo(todoItem.toString(), widget.userId, false);
-      _database.reference().child("todo").push().set(todo.toJson());
-    }
-  }
-
-  _updateTodo(Todo todo) {
-    //Toggle completed
-    todo.completed = !todo.completed;
-    if (todo != null) {
-      _database.reference().child("todo").child(todo.key).set(todo.toJson());
-    }
-  }
-
-  _deleteTodo(String todoId, int index) {
-    _database.reference().child("todo").child(todoId).remove().then((_) {
-      print("Delete $todoId successful");
-      setState(() {
-        _todoList.removeAt(index);
-      });
-    });
-  }*/
-
-  /*_showDialog(BuildContext context) async {
-    _textEditingController.clear();
-    await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: new Row(
-              children: <Widget>[
-                new Expanded(child: new TextField(
-                  controller: _textEditingController,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                    labelText: 'Add Classes',
-                  ),
-                ))
-              ],
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              new FlatButton(
-                  child: const Text('Save'),
-                  onPressed: () {
-                    //_addNewTodo(_textEditingController.text.toString());
-                    Navigator.pop(context);
-                  })
-            ],
-          );
-        }
-    );
-  }*/
-
-  /*Widget _showTodoList() {
-    if (_todoList.length > 0) {
-      return ListView.builder(
-          shrinkWrap: true,
-          itemCount: _todoList.length,
-          itemBuilder: (BuildContext context, int index) {
-            String todoId = _todoList[index].key;
-            String subject = _todoList[index].subject;
-            bool completed = _todoList[index].completed;
-            String userId = _todoList[index].userId;
-            return Dismissible(
-              key: Key(todoId),
-              background: Container(color: Colors.red),
-              onDismissed: (direction) async {
-                _deleteTodo(todoId, index);
-              },
-              child: ListTile(
-                title: Text(
-                  subject,
-                  style: TextStyle(fontSize: 20.0),
-                ),
-                trailing: IconButton(
-                    icon: (completed)
-                        ? Icon(
-                      Icons.done_outline,
-                      color: Colors.green,
-                      size: 20.0,
-                    )
-                        : Icon(Icons.done, color: Colors.grey, size: 20.0),
-                    onPressed: () {
-                      _updateTodo(_todoList[index]);
-                    }),
-              ),
-            );
-          });
-    } else {
-      return Center(child: Text("Welcome. Your class schedule is empty",
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20.0),));
-    }
-  }*/
 
   Widget _showClassDashboard(widthcard, lengthcard) {
     return Padding(
@@ -474,7 +390,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+
     MediaQueryData queryData =
     MediaQuery.of(context); //get aspect ratio of screen
     final double widthcard = queryData.size.width * 0.85;
@@ -515,7 +432,7 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 UserAccountsDrawerHeader(
                   accountName: Text("Moe"),
-                  accountEmail: Text("msulta03@nyit.edu"),
+                  accountEmail: Text(usersEmail),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.teal,
                     child: Text(

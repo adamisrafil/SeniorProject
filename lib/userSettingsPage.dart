@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 class UserSettingsPage extends StatefulWidget {
   UserSettingsPage({this.userManager, this.auth, this.root, this.user});
+
   final RootPage root;
   final User user;
   final BaseAuth auth;
