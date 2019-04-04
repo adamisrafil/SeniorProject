@@ -43,7 +43,8 @@ class _HomePageState extends State<HomePage> {
 
   bool _isEmailVerified = false;
   var userManager = new UserManager();
-  String usersEmail;
+  String usersEmail = "Searching...";
+  String usersName = "Go to settings and update";
 
 
   @override
@@ -64,6 +65,14 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
+  _getName() async{
+    await userManager.getUserName(mCurrentUser.uid).then((String res) {
+      print("Name incoming: " + res);
+      setState(() {
+        res != null ? usersName = res.toString() : "Having trouble";
+      });
+    });
+  }
 
   _getCurrentUser () async {
     mCurrentUser = await _auth.currentUser();
@@ -72,6 +81,7 @@ class _HomePageState extends State<HomePage> {
       mCurrentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
     });
     _getEmail();
+    _getName();
   }
 
   void _checkEmailVerification() async {
@@ -431,12 +441,12 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text("Moe"),
+                  accountName: Text(usersName),
                   accountEmail: Text(usersEmail),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.teal,
                     child: Text(
-                      "M",
+                      usersName.substring(0,1).toUpperCase(),
                       style: TextStyle(fontSize: 40.0),
                     ),
                   ),

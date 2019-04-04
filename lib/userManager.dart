@@ -29,4 +29,16 @@ class UserManager {
         return "Error getting email";
       }
     }
+    Future<String> getUserName(String userID) async {
+      print("we called the getUserName function");
+      DocumentSnapshot snapshot = await Firestore.instance.collection("users").document(userID).get();
+      var userName = snapshot['name'];
+      if (userName is String){
+        print("we got the name captain");
+        return userName;
+      }
+      else{
+        return "Error getting email";
+      }
+    }
 }
