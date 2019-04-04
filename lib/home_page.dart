@@ -454,7 +454,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text("ID"),
-                  leading: Icon(Icons.home),
+                  leading: Icon(Icons.person_outline),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -463,7 +463,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text('Evalutation Forms'),
-                  leading: Icon(Icons.account_box),
+                  leading: Icon(Icons.add_comment),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     // Update the state of the app
@@ -475,7 +475,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text('NYIT Forums'),
-                  leading: Icon(Icons.account_box),
+                  leading: Icon(Icons.people_outline),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     // Update the state of the app
@@ -487,7 +487,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text('Event Calendar'),
-                  leading: Icon(Icons.account_box),
+                  leading: Icon(Icons.calendar_today),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     // Update the state of the app
@@ -499,7 +499,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text('Settings'),
-                  leading: Icon(Icons.account_box),
+                  leading: Icon(Icons.settings),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     // Update the state of the app
