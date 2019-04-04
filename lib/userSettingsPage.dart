@@ -113,7 +113,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
 //                        labelText: 'Enter code (for faculty and staff only)',
 //                    ),
 //                ),
-                new Text("Bugs suck, please hit submit button twice in order to send data."),
+                new Text("Bugs suck, please hit submit button twice in order to send data.", textAlign: TextAlign.center,),
                 new Container(
                     padding: const EdgeInsets.only(left: 40.0, top: 20.0, right: 40.0),
                     child: new RaisedButton(
@@ -121,7 +121,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                       onPressed: _submitForm,
                     )
                 ),
-                new Text("Changes will take effect next time you close and reopen page."),
+                new Text("Changes will take effect next time you close and reopen page.", textAlign: TextAlign.center,),
               ],
             )
         ),
