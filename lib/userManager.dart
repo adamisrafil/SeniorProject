@@ -29,6 +29,7 @@ class UserManager {
         return "Error getting email";
       }
     }
+
     Future<String> getUserName(String userID) async {
       print("we called the getUserName function");
       DocumentSnapshot snapshot = await Firestore.instance.collection("users").document(userID).get();
@@ -39,6 +40,19 @@ class UserManager {
       }
       else{
         return "Error getting name";
+      }
+    }
+
+    Future<String> getUserNYITIDNumber(String userID) async {
+      print("we called the getUserIDNumber function");
+      DocumentSnapshot snapshot = await Firestore.instance.collection("users").document(userID).get();
+      var userNYITID = snapshot['ID'];
+      if (userNYITID is String){
+        print("we got the NYIT ID captain");
+        return userNYITID;
+      }
+      else{
+        return "Error getting NYIT ID";
       }
     }
 }
