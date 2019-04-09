@@ -1,16 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:SeniorProject/todo.dart';
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:SeniorProject/userManager.dart';
+import 'package:SeniorProject/user.dart';
+
+import 'package:SeniorProject/root_page.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.onSignedOut})
+  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root})
       : super(key: key);
 
   final BaseAuth auth;
+  final RootPage root;
   final VoidCallback onSignedOut;
   final String userId;
+  final UserManager userManager;
+  final User user;
 
   @override
   State<StatefulWidget> createState() => new _HomePageState();
@@ -18,6 +27,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //List<Todo> _todoList;
+
+  String accountStatus = '******';
+  FirebaseUser mCurrentUser;
+  FirebaseAuth _auth;
+  User updatedUser = new User();
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -28,22 +42,46 @@ class _HomePageState extends State<HomePage> {
   //Query _todoQuery;
 
   bool _isEmailVerified = false;
+  var userManager = new UserManager();
+  String usersEmail = "Searching...";
+  String usersName = "Go to settings and update";
+
 
   @override
   void initState() {
     super.initState();
+    _auth = FirebaseAuth.instance;
+    _getCurrentUser();
+    print('here outside async');
 
     _checkEmailVerification();
+  }
 
-    /*_todoList = new List();
-    _todoQuery = _database
-        .reference()
-        .child("todo")
-        .orderByChild("userId")
-        .equalTo(widget.userId);
-    _onTodoAddedSubscription = _todoQuery.onChildAdded.listen(_onEntryAdded);
-    _onTodoChangedSubscription =
-        _todoQuery.onChildChanged.listen(_onEntryChanged);*/
+  _getEmail() async{
+    await userManager.getUserEmail(mCurrentUser.uid).then((String res) {
+      print("Email incoming: " + res);
+      setState(() {
+        res != null ? usersEmail = res.toString() : "Having trouble";
+      });
+    });
+  }
+  _getName() async{
+    await userManager.getUserName(mCurrentUser.uid).then((String res) {
+      print("Name incoming: " + res);
+      setState(() {
+        res != null ? usersName = res.toString() : "Having trouble";
+      });
+    });
+  }
+
+  _getCurrentUser () async {
+    mCurrentUser = await _auth.currentUser();
+    print('Hello ' + mCurrentUser.uid);
+    setState(() {
+      mCurrentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
+    });
+    _getEmail();
+    _getName();
   }
 
   void _checkEmailVerification() async {
@@ -115,23 +153,6 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  /* _onEntryChanged(Event event) {
-    var oldEntry = _todoList.singleWhere((entry) {
-      return entry.key == event.snapshot.key;
-    });
-
-    setState(() {
-      _todoList[_todoList.indexOf(oldEntry)] =
-          Todo.fromSnapshot(event.snapshot);
-    });
-  }*/
-
-  /*_onEntryAdded(Event event) {
-    setState(() {
-      _todoList.add(Todo.fromSnapshot(event.snapshot));
-    });
-  }*/
-
   _signOut() async {
     try {
       await widget.auth.signOut();
@@ -140,107 +161,6 @@ class _HomePageState extends State<HomePage> {
       print(e);
     }
   }
-
-  /* _addNewTodo(String todoItem) {
-    if (todoItem.length > 0) {
-      Todo todo = new Todo(todoItem.toString(), widget.userId, false);
-      _database.reference().child("todo").push().set(todo.toJson());
-    }
-  }
-
-  _updateTodo(Todo todo) {
-    //Toggle completed
-    todo.completed = !todo.completed;
-    if (todo != null) {
-      _database.reference().child("todo").child(todo.key).set(todo.toJson());
-    }
-  }
-
-  _deleteTodo(String todoId, int index) {
-    _database.reference().child("todo").child(todoId).remove().then((_) {
-      print("Delete $todoId successful");
-      setState(() {
-        _todoList.removeAt(index);
-      });
-    });
-  }*/
-
-  /*_showDialog(BuildContext context) async {
-    _textEditingController.clear();
-    await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: new Row(
-              children: <Widget>[
-                new Expanded(child: new TextField(
-                  controller: _textEditingController,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                    labelText: 'Add Classes',
-                  ),
-                ))
-              ],
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              new FlatButton(
-                  child: const Text('Save'),
-                  onPressed: () {
-                    //_addNewTodo(_textEditingController.text.toString());
-                    Navigator.pop(context);
-                  })
-            ],
-          );
-        }
-    );
-  }*/
-
-  /*Widget _showTodoList() {
-    if (_todoList.length > 0) {
-      return ListView.builder(
-          shrinkWrap: true,
-          itemCount: _todoList.length,
-          itemBuilder: (BuildContext context, int index) {
-            String todoId = _todoList[index].key;
-            String subject = _todoList[index].subject;
-            bool completed = _todoList[index].completed;
-            String userId = _todoList[index].userId;
-            return Dismissible(
-              key: Key(todoId),
-              background: Container(color: Colors.red),
-              onDismissed: (direction) async {
-                _deleteTodo(todoId, index);
-              },
-              child: ListTile(
-                title: Text(
-                  subject,
-                  style: TextStyle(fontSize: 20.0),
-                ),
-                trailing: IconButton(
-                    icon: (completed)
-                        ? Icon(
-                      Icons.done_outline,
-                      color: Colors.green,
-                      size: 20.0,
-                    )
-                        : Icon(Icons.done, color: Colors.grey, size: 20.0),
-                    onPressed: () {
-                      _updateTodo(_todoList[index]);
-                    }),
-              ),
-            );
-          });
-    } else {
-      return Center(child: Text("Welcome. Your class schedule is empty",
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20.0),));
-    }
-  }*/
 
   Widget _showClassDashboard(widthcard, lengthcard) {
     return Padding(
@@ -480,7 +400,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+
     MediaQueryData queryData =
     MediaQuery.of(context); //get aspect ratio of screen
     final double widthcard = queryData.size.width * 0.85;
@@ -520,12 +441,12 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text("Moe"),
-                  accountEmail: Text("msulta03@nyit.edu"),
+                  accountName: Text(usersName),
+                  accountEmail: Text(usersEmail),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.teal,
                     child: Text(
-                      "M",
+                      usersName.substring(0,1).toUpperCase(),
                       style: TextStyle(fontSize: 40.0),
                     ),
                   ),
@@ -533,7 +454,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text("ID"),
-                  leading: Icon(Icons.home),
+                  leading: Icon(Icons.person_outline),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     Navigator.of(context).pop();
@@ -542,7 +463,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text('Evalutation Forms'),
-                  leading: Icon(Icons.account_box),
+                  leading: Icon(Icons.add_comment),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     // Update the state of the app
@@ -554,7 +475,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text('NYIT Forums'),
-                  leading: Icon(Icons.account_box),
+                  leading: Icon(Icons.people_outline),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     // Update the state of the app
@@ -566,7 +487,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   title: Text('Event Calendar'),
-                  leading: Icon(Icons.account_box),
+                  leading: Icon(Icons.calendar_today),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     // Update the state of the app
@@ -574,6 +495,18 @@ class _HomePageState extends State<HomePage> {
                     // Then close the drawer
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed('/eventPage');
+                  },
+                ),
+                ListTile(
+                  title: Text('Settings'),
+                  leading: Icon(Icons.settings),
+                  trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    // Update the state of the app
+                    // ...
+                    // Then close the drawer
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/userSettingsPage');
                   },
                 ),
               ],
