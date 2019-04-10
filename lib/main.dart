@@ -5,6 +5,7 @@ import 'package:SeniorProject/qrPage.dart';
 import 'package:SeniorProject/evalPage.dart';
 import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
+import 'package:SeniorProject/userSettingsPage.dart';
 
 void main() {
   runApp(new MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
           '/evalPage' : (BuildContext context) => new EvalPage(),
           '/forumPage' : (BuildContext context) => new ForumPage(),
           '/eventPage' : (BuildContext context) => new EventPage(),
+          '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
     },
     );
   }

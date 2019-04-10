@@ -23,6 +23,8 @@ dependencies:
   cloud_firestore:
   qr_flutter: ^2.0.0
   fluttertoast: ^2.0.7
+  #flutter_calendar_carousel:
+  flutter_pagewise:
   #path_provider: 0.4.1
   #barcode_scan: ^0.0.4
   #qr_flutter: ^1.1.1
