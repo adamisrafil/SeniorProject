@@ -54,6 +54,12 @@ class PagewiseListViewExample extends StatelessWidget {
             Icons.person,
             color: Colors.brown[200],
           ),
+          onTap: () {
+            Navigator.push(
+            context, new MaterialPageRoute(
+              builder: (context) => new crudPost())
+            );
+          },
           title: Text(entry.title),
           subtitle: Text(entry.body),
         ),
@@ -109,5 +115,26 @@ class ImageModel {
 
   static List<ImageModel> fromJsonList(jsonList) {
     return jsonList.map<ImageModel>((obj) => ImageModel.fromJson(obj)).toList();
+  }
+}
+
+class crudPost extends StatelessWidget {
+//final PostModel postModel;
+
+//crudPost(this.postModel);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("User Details"),
+      ),
+      body: Center(
+        child: Text(
+          "asfg",
+          //postModel.title,
+          style: TextStyle(fontSize: 35.0),
+        ),
+      ),
+    );
   }
 }
