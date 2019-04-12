@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:SeniorProject/todo.dart';
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:SeniorProject/userManager.dart';
 import 'package:SeniorProject/user.dart';
 
