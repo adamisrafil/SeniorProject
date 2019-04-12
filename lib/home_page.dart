@@ -441,8 +441,20 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text(usersName),
-                  accountEmail: Text(usersEmail),
+                  accountName: Text(
+                      usersName,
+                      style: TextStyle(color: Colors.black),
+                  ),
+                  accountEmail: Text(
+                      usersEmail,
+                      style: TextStyle(color: Colors.black),
+                  ),
+                  decoration: new BoxDecoration(
+                    image: new DecorationImage(
+                      image: new ExactAssetImage('assets/nyitlogo.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.teal,
                     child: Text(
@@ -450,7 +462,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: 40.0),
                     ),
                   ),
-                  decoration: BoxDecoration(color: Colors.black87),
+//                  decoration: BoxDecoration(color: Colors.black87),
                 ),
                 ListTile(
                   title: Text("ID"),

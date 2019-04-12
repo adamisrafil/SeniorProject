@@ -54,6 +54,7 @@ flutter:
   # https://flutter.io/assets-and-images/#resolution-aware.
   assets:
     - assets/gen_icon.png
+    - assets/nyitlogo.png
   # For details regarding adding assets from package dependencies, see
   # https://flutter.io/assets-and-images/#from-packages
 
