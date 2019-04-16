@@ -9,6 +9,9 @@ import 'package:SeniorProject/studentnavdrawer.dart';
 import 'package:SeniorProject/teachernavdrawer.dart';
 import 'package:SeniorProject/securitynavdrawer.dart';
 
+import 'package:SeniorProject/class_widget.dart';
+
+
 import 'package:SeniorProject/root_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -187,241 +190,34 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  //  _pageListCreator(List<>)
   Widget _showClassDashboard(widthcard, lengthcard) {
-    return Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 40.0),
-        child: Center(
-            child: Container(
-              width: widthcard,
-              height: lengthcard,
-              decoration: BoxDecoration(
-                  color: Colors.teal,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black87,
-                      blurRadius: 10.0,
-                      // has the effect of softening the shadow
-                      spreadRadius: 10.0,
-                      // has the effect of extending the shadow
-                      offset: Offset(
-                        1.0,
-                        1.0,
-                      ),
-                    )
-                  ]),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                      width: widthcard,
-                      height: lengthcard * 0.12,
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius:
-                          BorderRadius.only(bottomRight: Radius.circular(35.0)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white30,
-                              blurRadius: 5.0,
-                              // has the effect of softening the shadow
-                              spreadRadius: 1.0,
-                              // has the effect of extending the shadow
-                              offset: Offset(
-                                0.0,
-                                2.0,
-                              ),
-                            )
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Monday' /*TODO: It would be nice for the day to be pulled automatically*/,
-                          style: TextStyle(fontSize: widthcard * 0.09
-//                            fontFamily:
-                          ),
-                        ),
-                      )),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: Container(
-                        width: widthcard * 0.9,
-                        height: lengthcard * 0.12,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                blurRadius: 5.0,
-                                // has the effect of softening the shadow
-                                spreadRadius: 1.0,
-                                // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0,
-                                  2.0,
-                                ),
-                              )
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
-                                  style: TextStyle(fontSize: widthcard * 0.055
 
-//                            fontFamily:
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                                  child: Icon(
-                                    Icons
-                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
-                                  ),
-                                )
-                              ]),
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: Container(
-                        width: widthcard * 0.9,
-                        height: lengthcard * 0.12,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                blurRadius: 5.0,
-                                // has the effect of softening the shadow
-                                spreadRadius: 1.0,
-                                // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0,
-                                  2.0,
-                                ),
-                              )
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
-                                  style: TextStyle(fontSize: widthcard * 0.055
 
-//                            fontFamily:
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                                  child: Icon(
-                                    Icons
-                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
-                                  ),
-                                )
-                              ]),
-                        )),
-                  ),
-                  Padding(
-                    //TODO: Make these views into a function.
-                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: Container(
-                        width: widthcard * 0.9,
-                        height: lengthcard * 0.12,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                blurRadius: 5.0,
-                                // has the effect of softening the shadow
-                                spreadRadius: 1.0,
-                                // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0,
-                                  2.0,
-                                ),
-                              )
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
-                                  style: TextStyle(fontSize: widthcard * 0.055
+    //initialize classlist list of dictionay classes = [{'monday':[], 'tuesday': [],
+    //TODO: would be nice if pulled through firebase
 
-//                            fontFamily:
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                                  child: Icon(
-                                    Icons
-                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
-                                  ),
-                                )
-                              ]),
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: Container(
-                        width: widthcard * 0.9,
-                        height: lengthcard * 0.12,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                blurRadius: 5.0,
-                                // has the effect of softening the shadow
-                                spreadRadius: 1.0,
-                                // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0,
-                                  2.0,
-                                ),
-                              )
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
-                                  style: TextStyle(fontSize: widthcard * 0.055
+    var classesSchedule = {
+      'monday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'tuesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'wednesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'thursday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'friday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+    };
+    //initialize each page (one through five): this is a data structure that will go into the pageListCreator function to generate a list of pages for the PageView class to scroll through
+    // TODO: ideally these initializations happen through firebase
 
-//                            fontFamily:
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                                  child: Icon(
-                                    Icons
-                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
-                                  ),
-                                )
-                              ]),
-                        )),
-                  ),
-                ],
-              ),
-            )));
+    var pageOne = {'header': DayPageHeader(widthcard,lengthcard, one, 'Monday'), 'classes': classesSchedule['monday'], 'background': monday};
+    var pageTwo = {'header': DayPageHeader(widthcard,lengthcard, two, 'Tuesday'), 'classes': classesSchedule['tuesday'], 'background': tuesday};
+    var pageThree = {'header': DayPageHeader(widthcard,lengthcard, three, 'Wednesday'), 'classes': classesSchedule['wednesday'], 'background': wednesday};
+    var pageFour = {'header': DayPageHeader(widthcard,lengthcard, four, 'Thursday'), 'classes': classesSchedule['thursday'], 'background': thursday};
+    var pageFive = {'header': DayPageHeader(widthcard,lengthcard, five, 'Friday'), 'classes': classesSchedule['friday'], 'background': friday};
+
+    var pageListInput = [pageOne,pageTwo,pageThree, pageFour, pageFive];
+
+    var pages = pageListCreator(pageListInput, widthcard, lengthcard);
+
+    return PageView.builder(itemBuilder: (context, position) => pages[position], itemCount: pages.length, controller: PageController(viewportFraction: 1.0, initialPage: 0));
   }
 
   @override
