@@ -6,6 +6,7 @@ import 'package:SeniorProject/evalPage.dart';
 import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
+import 'package:SeniorProject/studentnavdrawer.dart';
 
 void main() {
   runApp(new MyApp());
