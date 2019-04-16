@@ -98,7 +98,7 @@ class _NavDrawerState extends State<ProfNavDrawer> {
 //                  decoration: BoxDecoration(color: Colors.black87),
               ),
               ListTile(
-                title: Text("ID"),
+                title: Text("ID Scanner"),
                 leading: Icon(Icons.person_outline),
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {
@@ -107,7 +107,7 @@ class _NavDrawerState extends State<ProfNavDrawer> {
                 },
               ),
               ListTile(
-                title: Text('Evalutation Forms'),
+                title: Text('Evalutation Responses'),
                 leading: Icon(Icons.add_comment),
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {

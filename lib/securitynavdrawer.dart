@@ -98,36 +98,12 @@ class _NavDrawerState extends State<SecNavDrawer> {
 //                  decoration: BoxDecoration(color: Colors.black87),
               ),
               ListTile(
-                title: Text("ID"),
+                title: Text("ID Scanner"),
                 leading: Icon(Icons.person_outline),
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pushNamed('/qrPage');
-                },
-              ),
-              ListTile(
-                title: Text('Evalutation Forms'),
-                leading: Icon(Icons.add_comment),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/evalPage');
-                },
-              ),
-              ListTile(
-                title: Text('NYIT Forums'),
-                leading: Icon(Icons.people_outline),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/forumPage');
                 },
               ),
               ListTile(

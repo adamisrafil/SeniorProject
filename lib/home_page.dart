@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   var userManager = new UserManager();
   String usersEmail = "Searching...";
   String usersName = "Go to settings and update";
+  String usersRole = "****";
 
 
   @override
@@ -66,12 +67,23 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
+
   _getName() async{
     await userManager.getUserName(mCurrentUser.uid).then((String res) {
       print("Name incoming: " + res);
       setState(() {
         res != null ? usersName = res.toString() : "Having trouble";
       });
+    });
+  }
+
+  _getRole() async {
+    await userManager.getUserRole(mCurrentUser.uid).then((String res) {
+      print("Role incoming: " + res);
+      setState(() {
+        res != null ? usersRole = res.toString() : "Having trouble";
+      });
+      _NavDrawerUsed();
     });
   }
 
@@ -83,6 +95,18 @@ class _HomePageState extends State<HomePage> {
     });
     _getEmail();
     _getName();
+    _getRole();
+  }
+
+   _NavDrawerUsed() {
+    switch(usersRole) {
+      case "student": { return StudNavDrawer(); }
+      break;
+      case "professor": { return ProfNavDrawer(); }
+      break;
+      case "security": { return SecNavDrawer(); }
+      break;
+    }
   }
 
   void _checkEmailVerification() async {
@@ -431,7 +455,7 @@ class _HomePageState extends State<HomePage> {
               )),
         ),
       ),
-      drawer: StudNavDrawer(),
+      drawer: _NavDrawerUsed(),
     );
   }
 }
