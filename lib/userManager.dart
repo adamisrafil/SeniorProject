@@ -55,4 +55,17 @@ class UserManager {
         return "Error getting NYIT ID";
       }
     }
+
+    Future<String> getUserRole(String userID) async {
+      print("we called the getUserRole function");
+      DocumentSnapshot snapshot = await Firestore.instance.collection("users").document(userID).get();
+      var userRole = snapshot['role'];
+      if (userRole is String){
+        print("we got the role captain");
+        return userRole;
+      }
+      else{
+        return "student";
+      }
+    }
 }

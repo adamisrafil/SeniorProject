@@ -2,12 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:SeniorProject/todo.dart';
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:SeniorProject/userManager.dart';
 import 'package:SeniorProject/user.dart';
+import 'package:SeniorProject/studentnavdrawer.dart';
+import 'package:SeniorProject/teachernavdrawer.dart';
+import 'package:SeniorProject/securitynavdrawer.dart';
+
 import 'package:SeniorProject/class_widget.dart';
+
 
 import 'package:SeniorProject/root_page.dart';
 
@@ -46,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   var userManager = new UserManager();
   String usersEmail = "Searching...";
   String usersName = "Go to settings and update";
+  String usersRole = "****";
 
 
   @override
@@ -66,12 +70,23 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
+
   _getName() async{
     await userManager.getUserName(mCurrentUser.uid).then((String res) {
       print("Name incoming: " + res);
       setState(() {
         res != null ? usersName = res.toString() : "Having trouble";
       });
+    });
+  }
+
+  _getRole() async {
+    await userManager.getUserRole(mCurrentUser.uid).then((String res) {
+      print("Role incoming: " + res);
+      setState(() {
+        res != null ? usersRole = res.toString() : "Having trouble";
+      });
+      _NavDrawerUsed();
     });
   }
 
@@ -83,6 +98,18 @@ class _HomePageState extends State<HomePage> {
     });
     _getEmail();
     _getName();
+    _getRole();
+  }
+
+   _NavDrawerUsed() {
+    switch(usersRole) {
+      case "student": { return StudNavDrawer(); }
+      break;
+      case "professor": { return ProfNavDrawer(); }
+      break;
+      case "security": { return SecNavDrawer(); }
+      break;
+    }
   }
 
   void _checkEmailVerification() async {
@@ -224,88 +251,7 @@ class _HomePageState extends State<HomePage> {
               )),
         ),
       ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the Drawer if there isn't enough vertical
-        // space to fit everything.
-        child: Container(
-            color: Colors.white10,
-            child: ListView(
-              // Important: Remove any padding from the ListView.
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountName: Text(usersName),
-                  accountEmail: Text(usersEmail),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.teal,
-                    child: Text(
-                      usersName.substring(0,1).toUpperCase(),
-                      style: TextStyle(fontSize: 40.0),
-                    ),
-                  ),
-                  decoration: BoxDecoration(color: Colors.black87),
-                ),
-                ListTile(
-                  title: Text("ID"),
-                  leading: Icon(Icons.person_outline),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/qrPage');
-                  },
-                ),
-                ListTile(
-                  title: Text('Evalutation Forms'),
-                  leading: Icon(Icons.add_comment),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/evalPage');
-                  },
-                ),
-                ListTile(
-                  title: Text('NYIT Forums'),
-                  leading: Icon(Icons.people_outline),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/forumPage');
-                  },
-                ),
-                ListTile(
-                  title: Text('Event Calendar'),
-                  leading: Icon(Icons.calendar_today),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/eventPage');
-                  },
-                ),
-                ListTile(
-                  title: Text('Settings'),
-                  leading: Icon(Icons.settings),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/userSettingsPage');
-                  },
-                ),
-              ],
-            )),
-      ),
+      drawer: _NavDrawerUsed(),
     );
   }
 }

@@ -21,6 +21,7 @@ dependencies:
   firebase_auth: ^0.6.6
   firebase_database: ^1.0.5
   cloud_firestore:
+  http:
   qr_flutter: ^2.0.0
   #flutter_calendar_carousel:
   flutter_pagewise:
@@ -52,6 +53,8 @@ flutter:
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
   assets:
+    - assets/gen_icon.png
+    - assets/nyitlogo.png
   - assets/gen_icon.png
   - assets/cal_Backgrounds/monday.jpg
   - assets/cal_Backgrounds/tuesday.jpg
