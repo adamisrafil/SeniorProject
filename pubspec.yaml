@@ -53,8 +53,19 @@ flutter:
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
   assets:
-    - assets/gen_icon.png
-    - assets/nyitlogo.png
+  - assets/nyitlogo.png
+  - assets/gen_icon.png
+  - assets/cal_Backgrounds/monday.jpg
+  - assets/cal_Backgrounds/tuesday.jpg
+  - assets/cal_Backgrounds/thursday.jpg
+  - assets/cal_Backgrounds/wednesday.jpg
+  - assets/cal_Backgrounds/friday.png
+
+  - assets/headerbackgrounds/one.jpeg
+  - assets/headerbackgrounds/two.png
+  - assets/headerbackgrounds/three.png
+  - assets/headerbackgrounds/four.jpg
+  - assets/headerbackgrounds/five.png
   # For details regarding adding assets from package dependencies, see
   # https://flutter.io/assets-and-images/#from-packages
 
@@ -75,5 +86,15 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+  - family: Galada
+    fonts:
+    - asset: assets/fonts/Galada-Regular.ttf
+
+  - family: PoiretOne
+    fonts:
+    - asset: assets/fonts/PoiretOne-Regular.ttf
+
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
