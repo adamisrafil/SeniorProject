@@ -13,7 +13,7 @@ class UserManager {
       Map<String, dynamic> userData = Map();
       userData["name"] = user.name;
       userData["ID"] = user.ID;
-//      userData["Role"] = user.role;
+      userData["role"] = user.role;
       Firestore.instance.collection("users").document(uid).setData(userData, merge: true);
     }
 
