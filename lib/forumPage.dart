@@ -43,23 +43,34 @@ class _ForumPageState extends State<ForumPage> {
   }
 }
 class crudPost extends StatelessWidget {
-//final PostModel postModel;
+final PostModel entry;
 
-//crudPost(this.postModel);
+crudPost(this.entry);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User Details"),
+        title: Text(entry.title),
       ),
-      body: Center(
-        child: Text(
-          "asfg",
-          //postModel.title,
-          style: TextStyle(fontSize: 35.0),
+      body: Column(
+        children: <Widget>[
+          new Text(
+          entry.title,
+          style: TextStyle(fontSize: 20.0),
         ),
-      ),
-    );
+          new Text(
+            entry.body,
+          ),
+              new Padding(padding: EdgeInsets.only(top: 50.0)),
+              //new Icon(),
+              new Text('Reply Post',style: new TextStyle(fontSize: 20.0),),
+              new Padding(padding: EdgeInsets.only(top: 10.0)),
+              new TextFormField(
+                decoration: new InputDecoration(
+                    labelText: 'Comment', hintText: 'e.g asdggdf'),
+              ),
+            ]),
+          );
   }
 }
 
@@ -262,7 +273,7 @@ class PagewiseListViewExample extends StatelessWidget {
           onTap: () {
             Navigator.push(
             context, new MaterialPageRoute(
-              builder: (context) => new crudPost())
+              builder: (context) => new crudPost(entry))
             );
           },
           title: Text(entry.title),
