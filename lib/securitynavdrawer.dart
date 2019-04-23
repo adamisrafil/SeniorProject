@@ -103,7 +103,7 @@ class _NavDrawerState extends State<SecNavDrawer> {
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/qrPage');
+                  Navigator.of(context).pushNamed('/qrScanner');
                 },
               ),
               ListTile(

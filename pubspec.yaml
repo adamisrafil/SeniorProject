@@ -25,9 +25,8 @@ dependencies:
   qr_flutter: ^2.0.0
   #flutter_calendar_carousel:
   flutter_pagewise:
-  #path_provider: 0.4.1
-  #barcode_scan: ^0.0.4
-  #qr_flutter: ^1.1.1
+  path_provider: 0.4.1
+  barcode_scan: ^0.0.4
 
 dev_dependencies:
   flutter_test:
