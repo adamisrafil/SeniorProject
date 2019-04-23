@@ -150,7 +150,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                       onPressed: _submitForm,
                     )
                 ),
-                new Text("Changes will take effect next time you close and reopen page.", textAlign: TextAlign.center,),
+                new Text("Changes will take effect next time you close and reopen app.", textAlign: TextAlign.center,),
               ],
             )
         ),
