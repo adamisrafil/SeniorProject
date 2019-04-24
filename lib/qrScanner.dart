@@ -11,6 +11,7 @@ class ScanScreen extends StatefulWidget {
 
 class _ScanState extends State<ScanScreen> {
   String barcode = "";
+  DateTime now = new DateTime.now();
 
   @override
   initState() {
@@ -19,6 +20,8 @@ class _ScanState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime date = new DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    var currentTime = now.year.toString() + "/" + now.month.toString()  + "/" + now.day.toString() + " " + now.hour.toString() + ":" + now.minute.toString();
     return Scaffold(
         appBar: new AppBar(
           title: new Text('QR Code Scanner'),
@@ -41,7 +44,7 @@ class _ScanState extends State<ScanScreen> {
               ,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(barcode, textAlign: TextAlign.center,),
+                child: Text(barcode + "\n" + currentTime, textAlign: TextAlign.center, style: TextStyle(fontSize: 20),),
               )
               ,
             ],
