@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root})
       : super(key: key);
 
+
   final BaseAuth auth;
   final RootPage root;
   final VoidCallback onSignedOut;
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   User updatedUser = new User();
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<_HomePageState> homePageKey = GlobalKey<_HomePageState>();
 
   final _textEditingController = TextEditingController();
   StreamSubscription<Event> _onTodoAddedSubscription;
@@ -146,7 +148,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
   @override
   void dispose() {
     _onTodoAddedSubscription.cancel();
@@ -171,11 +172,11 @@ class _HomePageState extends State<HomePage> {
     //TODO: would be nice if pulled through firebase
 
     var classesSchedule = {
-      'monday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
-      'tuesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
-      'wednesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
-      'thursday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
-      'friday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'monday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M02','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M03','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M04','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M05','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M06','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M07','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M08','9:30 AM - 11:00 AM') ],
+      'tuesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 280 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 285 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 290 M01','9:30 AM - 11:00 AM') ],
+      'wednesday': [ClassWidget(widthcard, lengthcard, 'CSCI 295 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM') ],
+      'thursday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM') ],
+      'friday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM') ],
     };
     //initialize each page (one through five): this is a data structure that will go into the pageListCreator function to generate a list of pages for the PageView class to scroll through
     // TODO: ideally these initializations happen through firebase
@@ -190,18 +191,22 @@ class _HomePageState extends State<HomePage> {
 
     var pages = pageListCreator(pageListInput, widthcard, lengthcard);
 
-    return PageView.builder(itemBuilder: (context, position) => pages[position], itemCount: pages.length, controller: PageController(viewportFraction: 1.0, initialPage: 0));
+    return Container(
+        decoration: new BoxDecoration(color: Color.fromRGBO(21, 23, 28,1.0)),
+        child: PageView.builder(itemBuilder: (context, position) => pages[position], itemCount: pages.length, controller: PageController(viewportFraction: 1.0, initialPage: 0)));
   }
 
   @override
   Widget build(BuildContext context){
-
-    MediaQueryData queryData =
-    MediaQuery.of(context); //get aspect ratio of screen
+    MediaQueryData queryData = MediaQuery.of(context); //get aspect ratio of screen
     final double widthcard = queryData.size.width * 0.85;
     final double lengthcard = queryData.size.height * 0.75;
+    final GlobalKey <ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return new Scaffold(
+      key: _scaffoldKey ,
       appBar: new AppBar(
+        backgroundColor: Colors.teal[800],
         title: new Text('Welcome'),
         actions: <Widget>[
           new FlatButton(
@@ -212,8 +217,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _showClassDashboard(widthcard, lengthcard),
       floatingActionButton: Container(
-        height: 100.0,
-        width: 100.0,
+        height: 50.0,
+        width: 50.0,
         child: FittedBox(
           child: FloatingActionButton(
               onPressed: () {},
