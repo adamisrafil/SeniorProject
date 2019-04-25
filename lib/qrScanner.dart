@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ScanScreen extends StatefulWidget {
   @override
@@ -16,6 +17,13 @@ class _ScanState extends State<ScanScreen> {
   @override
   initState() {
     super.initState();
+  }
+
+  Future<void> _uploadUser(barcode) async{
+    Map<String, dynamic> scannedUser = Map();
+    scannedUser["UserInfo"] = barcode;
+    scannedUser["timestamp"] = now;
+    Firestore.instance.collection("scannedUsers").add(scannedUser);
   }
 
   @override
@@ -56,6 +64,7 @@ class _ScanState extends State<ScanScreen> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
+      _uploadUser(barcode);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
