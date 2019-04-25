@@ -2,11 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:SeniorProject/todo.dart';
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:SeniorProject/userManager.dart';
 import 'package:SeniorProject/user.dart';
+import 'package:SeniorProject/studentnavdrawer.dart';
+import 'package:SeniorProject/teachernavdrawer.dart';
+import 'package:SeniorProject/securitynavdrawer.dart';
+
+import 'package:SeniorProject/class_widget.dart';
+
 
 import 'package:SeniorProject/root_page.dart';
 
@@ -45,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   var userManager = new UserManager();
   String usersEmail = "Searching...";
   String usersName = "Go to settings and update";
+  String usersRole = "****";
 
 
   @override
@@ -65,12 +70,23 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
+
   _getName() async{
     await userManager.getUserName(mCurrentUser.uid).then((String res) {
       print("Name incoming: " + res);
       setState(() {
         res != null ? usersName = res.toString() : "Having trouble";
       });
+    });
+  }
+
+  _getRole() async {
+    await userManager.getUserRole(mCurrentUser.uid).then((String res) {
+      print("Role incoming: " + res);
+      setState(() {
+        res != null ? usersRole = res.toString() : "Having trouble";
+      });
+      _NavDrawerUsed();
     });
   }
 
@@ -82,6 +98,18 @@ class _HomePageState extends State<HomePage> {
     });
     _getEmail();
     _getName();
+    _getRole();
+  }
+
+   _NavDrawerUsed() {
+    switch(usersRole) {
+      case "student": { return StudNavDrawer(); }
+      break;
+      case "professor": { return ProfNavDrawer(); }
+      break;
+      case "security": { return SecNavDrawer(); }
+      break;
+    }
   }
 
   void _checkEmailVerification() async {
@@ -162,241 +190,34 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  //  _pageListCreator(List<>)
   Widget _showClassDashboard(widthcard, lengthcard) {
-    return Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 40.0),
-        child: Center(
-            child: Container(
-              width: widthcard,
-              height: lengthcard,
-              decoration: BoxDecoration(
-                  color: Colors.teal,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black87,
-                      blurRadius: 10.0,
-                      // has the effect of softening the shadow
-                      spreadRadius: 10.0,
-                      // has the effect of extending the shadow
-                      offset: Offset(
-                        1.0,
-                        1.0,
-                      ),
-                    )
-                  ]),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                      width: widthcard,
-                      height: lengthcard * 0.12,
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius:
-                          BorderRadius.only(bottomRight: Radius.circular(35.0)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white30,
-                              blurRadius: 5.0,
-                              // has the effect of softening the shadow
-                              spreadRadius: 1.0,
-                              // has the effect of extending the shadow
-                              offset: Offset(
-                                0.0,
-                                2.0,
-                              ),
-                            )
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Monday' /*TODO: It would be nice for the day to be pulled automatically*/,
-                          style: TextStyle(fontSize: widthcard * 0.09
-//                            fontFamily:
-                          ),
-                        ),
-                      )),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: Container(
-                        width: widthcard * 0.9,
-                        height: lengthcard * 0.12,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                blurRadius: 5.0,
-                                // has the effect of softening the shadow
-                                spreadRadius: 1.0,
-                                // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0,
-                                  2.0,
-                                ),
-                              )
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
-                                  style: TextStyle(fontSize: widthcard * 0.055
 
-//                            fontFamily:
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                                  child: Icon(
-                                    Icons
-                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
-                                  ),
-                                )
-                              ]),
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: Container(
-                        width: widthcard * 0.9,
-                        height: lengthcard * 0.12,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                blurRadius: 5.0,
-                                // has the effect of softening the shadow
-                                spreadRadius: 1.0,
-                                // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0,
-                                  2.0,
-                                ),
-                              )
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
-                                  style: TextStyle(fontSize: widthcard * 0.055
 
-//                            fontFamily:
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                                  child: Icon(
-                                    Icons
-                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
-                                  ),
-                                )
-                              ]),
-                        )),
-                  ),
-                  Padding(
-                    //TODO: Make these views into a function.
-                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: Container(
-                        width: widthcard * 0.9,
-                        height: lengthcard * 0.12,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                blurRadius: 5.0,
-                                // has the effect of softening the shadow
-                                spreadRadius: 1.0,
-                                // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0,
-                                  2.0,
-                                ),
-                              )
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
-                                  style: TextStyle(fontSize: widthcard * 0.055
+    //initialize classlist list of dictionay classes = [{'monday':[], 'tuesday': [],
+    //TODO: would be nice if pulled through firebase
 
-//                            fontFamily:
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                                  child: Icon(
-                                    Icons
-                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
-                                  ),
-                                )
-                              ]),
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                    child: Container(
-                        width: widthcard * 0.9,
-                        height: lengthcard * 0.12,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.white30,
-                                blurRadius: 5.0,
-                                // has the effect of softening the shadow
-                                spreadRadius: 1.0,
-                                // has the effect of extending the shadow
-                                offset: Offset(
-                                  0.0,
-                                  2.0,
-                                ),
-                              )
-                            ]),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'CSCI 355 M01' /*TODO: It would be nice for the day to be pulled automatically*/,
-                                  style: TextStyle(fontSize: widthcard * 0.055
+    var classesSchedule = {
+      'monday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'tuesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'wednesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'thursday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'friday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+    };
+    //initialize each page (one through five): this is a data structure that will go into the pageListCreator function to generate a list of pages for the PageView class to scroll through
+    // TODO: ideally these initializations happen through firebase
 
-//                            fontFamily:
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 20.0, 0.0),
-                                  child: Icon(
-                                    Icons
-                                        .border_color /*TODO: On tap, change current icon to indicate selection, change action button color/icon to indicate that an action can be madey*/,
-                                  ),
-                                )
-                              ]),
-                        )),
-                  ),
-                ],
-              ),
-            )));
+    var pageOne = {'header': DayPageHeader(widthcard,lengthcard, one, 'Monday'), 'classes': classesSchedule['monday'], 'background': monday};
+    var pageTwo = {'header': DayPageHeader(widthcard,lengthcard, two, 'Tuesday'), 'classes': classesSchedule['tuesday'], 'background': tuesday};
+    var pageThree = {'header': DayPageHeader(widthcard,lengthcard, three, 'Wednesday'), 'classes': classesSchedule['wednesday'], 'background': wednesday};
+    var pageFour = {'header': DayPageHeader(widthcard,lengthcard, four, 'Thursday'), 'classes': classesSchedule['thursday'], 'background': thursday};
+    var pageFive = {'header': DayPageHeader(widthcard,lengthcard, five, 'Friday'), 'classes': classesSchedule['friday'], 'background': friday};
+
+    var pageListInput = [pageOne,pageTwo,pageThree, pageFour, pageFive];
+
+    var pages = pageListCreator(pageListInput, widthcard, lengthcard);
+
+    return PageView.builder(itemBuilder: (context, position) => pages[position], itemCount: pages.length, controller: PageController(viewportFraction: 1.0, initialPage: 0));
   }
 
   @override
@@ -430,88 +251,7 @@ class _HomePageState extends State<HomePage> {
               )),
         ),
       ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the Drawer if there isn't enough vertical
-        // space to fit everything.
-        child: Container(
-            color: Colors.white10,
-            child: ListView(
-              // Important: Remove any padding from the ListView.
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountName: Text(usersName),
-                  accountEmail: Text(usersEmail),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.teal,
-                    child: Text(
-                      usersName.substring(0,1).toUpperCase(),
-                      style: TextStyle(fontSize: 40.0),
-                    ),
-                  ),
-                  decoration: BoxDecoration(color: Colors.black87),
-                ),
-                ListTile(
-                  title: Text("ID"),
-                  leading: Icon(Icons.person_outline),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/qrPage');
-                  },
-                ),
-                ListTile(
-                  title: Text('Evalutation Forms'),
-                  leading: Icon(Icons.add_comment),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/evalPage');
-                  },
-                ),
-                ListTile(
-                  title: Text('NYIT Forums'),
-                  leading: Icon(Icons.people_outline),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/forumPage');
-                  },
-                ),
-                ListTile(
-                  title: Text('Event Calendar'),
-                  leading: Icon(Icons.calendar_today),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/eventPage');
-                  },
-                ),
-                ListTile(
-                  title: Text('Settings'),
-                  leading: Icon(Icons.settings),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/userSettingsPage');
-                  },
-                ),
-              ],
-            )),
-      ),
+      drawer: _NavDrawerUsed(),
     );
   }
 }
