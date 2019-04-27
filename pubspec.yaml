@@ -13,6 +13,7 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  tuple: ^1.0.2
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
@@ -30,6 +31,7 @@ dependencies:
   #qr_flutter: ^1.1.1
 
 dev_dependencies:
+  date_utils: ^0.1.0
   flutter_test:
     sdk: flutter
 
