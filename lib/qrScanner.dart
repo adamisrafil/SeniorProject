@@ -22,7 +22,8 @@ class _ScanState extends State<ScanScreen> {
   Future<void> _uploadUser(barcode) async{
     Map<String, dynamic> scannedUser = Map();
     scannedUser["UserInfo"] = barcode;
-    scannedUser["timestamp"] = now;
+    scannedUser["time"] = now;
+    scannedUser["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
     Firestore.instance.collection("scannedUsers").add(scannedUser);
   }
 

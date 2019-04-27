@@ -107,6 +107,15 @@ class _NavDrawerState extends State<SecNavDrawer> {
                 },
               ),
               ListTile(
+                title: Text("Scan Log"),
+                leading: Icon(Icons.person_outline),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed('/securityLog');
+                },
+              ),
+              ListTile(
                 title: Text('Event Calendar'),
                 leading: Icon(Icons.calendar_today),
                 trailing: Icon(Icons.arrow_forward),
