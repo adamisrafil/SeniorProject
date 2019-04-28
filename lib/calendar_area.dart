@@ -10,6 +10,11 @@ class CalendarArea extends StatelessWidget {
   final TextStyle dayOfWeekStyles;
   final TextStyle dateStyles;
   final Widget child;
+  final bool inMonth;
+  final List<Map> events;
+  final Color selectedColor;
+  final Color eventColor;
+  final Color doneColor;
 
   CalendarArea({
     this.onDateSelected,
@@ -20,6 +25,11 @@ class CalendarArea extends StatelessWidget {
     this.dayOfWeekStyles,
     this.isDayOfWeek: false,
     this.isSelected: false,
+    this.inMonth: true,
+    this.events,
+    this.selectedColor,
+    this.eventColor,
+    this.doneColor
   });
 
   Widget renderDateOrDayOfWeek(BuildContext context) {
@@ -34,22 +44,51 @@ class CalendarArea extends StatelessWidget {
         ),
       );
     } else {
+      int eventCount = 0;
       return new InkWell(
-        onTap: onDateSelected,
-        child: new Container(
-          decoration: isSelected
-              ? new BoxDecoration(
-            shape: BoxShape.circle,
-            color: Theme.of(context).primaryColor,
+          onTap: onDateSelected,
+          child: new Container(
+            decoration: isSelected
+                ? new BoxDecoration(
+              shape: BoxShape.circle,
+              color: selectedColor != null ? selectedColor : Theme.of(context).primaryColor,
+            )
+                : new BoxDecoration(),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  Utils.formatDay(date).toString(),
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                      color: inMonth ? Colors.black : Colors.grey),
+                ),
+                events != null && events.length > 0
+                    ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: events.map((event) {
+                      eventCount++;
+                      if (eventCount > 3) return new Container();
+                      return Container(
+                        margin:
+                        EdgeInsets.only(left: 2.0, right: 2.0, top: 3.0),
+                        width: 6.0,
+                        height: 6.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: event['isDone']
+                              ? doneColor ??
+                              Theme.of(context).primaryColor
+                              : eventColor ?? Theme.of(context).accentColor,
+                        ),
+                      );
+                    }).toList())
+                    : Container(),
+              ],
+            ),
           )
-              : new BoxDecoration(),
-          alignment: Alignment.center,
-          child: new Text(
-            Utils.formatDay(date).toString(),
-            style: isSelected ? Theme.of(context).primaryTextTheme.body1 : dateStyles,
-            textAlign: TextAlign.center,
-          ),
-        ),
       );
     }
   }
