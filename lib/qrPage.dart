@@ -40,13 +40,12 @@ class _NavQrPageState extends State<NavQrPage> {
     setState(() {
       mCurrentUser != null ? UserID = mCurrentUser.uid : "Having trouble retriving UID";
     });
-
-    _getName();
     _getNYITID();
+    _getName();
   }
 
   _getName() async{
-    await userManager.getUserName(UserID).then((String res) {
+    await userManager.getUserName(mCurrentUser.uid).then((String res) {
       print("Name incoming: " + res);
       setState(() {
         res != null ? usersName = res.toString() : "Having trouble";
@@ -55,7 +54,7 @@ class _NavQrPageState extends State<NavQrPage> {
   }
 
   _getNYITID() async{
-    await userManager.getUserNYITIDNumber(UserID).then((String res) {
+    await userManager.getUserNYITIDNumber(mCurrentUser.uid).then((String res) {
       print("ID incoming: " + res);
       setState(() {
         res != null ? usersNYITID = res.toString() : "Having trouble";
@@ -76,7 +75,7 @@ class _NavQrPageState extends State<NavQrPage> {
         child: Column(
           children: <Widget>[
             new QrImage(
-              data: "NYIT ID: " + usersNYITID + "\n Name: " + usersName,
+              data: UserID,
               size: 200.0, /*new Text('QR CODE GOES HERE', style: new TextStyle(fontSize: 20),),*/
             ),
             new Text("Name: " + usersName, style: TextStyle(fontSize: 20),),

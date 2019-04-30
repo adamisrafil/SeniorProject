@@ -4,6 +4,8 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:SeniorProject/userManager.dart';
+import 'package:SeniorProject/user.dart';
 
 class ScanScreen extends StatefulWidget {
   @override
@@ -19,10 +21,39 @@ class _ScanState extends State<ScanScreen> {
     super.initState();
   }
 
+
+  User updatedUser = new User();
+  var userManager = new UserManager();
+
+  String usersName = "Not on record";
+  String usersNYITID = "Not on record";
+
+  _getName(String barcode) async{
+    await userManager.getUserName(barcode).then((String res) {
+      print("Name incoming: " + res);
+      setState(() {
+        res != null ? usersName = res.toString() : "Having trouble";
+      });
+    });
+  }
+
+  _getNYITID(String barcode) async{
+    await userManager.getUserNYITIDNumber(barcode).then((String res) {
+      print("ID incoming: " + res);
+      setState(() {
+        res != null ? usersNYITID = res.toString() : "Having trouble";
+      });
+    });
+  }
+
+
   Future<void> _uploadUser(barcode) async{
     Map<String, dynamic> scannedUser = Map();
-    scannedUser["UserInfo"] = barcode;
+    scannedUser["ID"] = barcode;
     scannedUser["time"] = now;
+    scannedUser["day"] = now.day;
+    scannedUser["month"] = now.month;
+    scannedUser["year"] = now.year;
     scannedUser["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
     Firestore.instance.collection("scannedUsers").add(scannedUser);
   }
@@ -53,7 +84,7 @@ class _ScanState extends State<ScanScreen> {
               ,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(barcode + "\n" + currentTime, textAlign: TextAlign.center, style: TextStyle(fontSize: 20),),
+                child: Text('ID: ' + usersNYITID + "\n" 'Name: ' + usersName + "\n" + currentTime, textAlign: TextAlign.center, style: TextStyle(fontSize: 20),),
               )
               ,
             ],
@@ -65,6 +96,8 @@ class _ScanState extends State<ScanScreen> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
+      _getName(barcode);
+      _getNYITID(barcode);
       _uploadUser(barcode);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
