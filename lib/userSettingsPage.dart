@@ -65,6 +65,11 @@ class _UserSettingsPage extends State<UserSettingsPage> {
         regex = new RegExp('666');
       }
       break;
+      case '111222333': {
+        newUserRole = "admin";
+        regex = new RegExp('111222333');
+      }
+      break;
       case '': {
          regex = new RegExp('');
 

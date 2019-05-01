@@ -8,6 +8,7 @@ import 'package:SeniorProject/user.dart';
 import 'package:SeniorProject/studentnavdrawer.dart';
 import 'package:SeniorProject/teachernavdrawer.dart';
 import 'package:SeniorProject/securitynavdrawer.dart';
+import 'package:SeniorProject/adminnavdrawer.dart';
 
 import 'package:SeniorProject/class_widget.dart';
 
@@ -108,6 +109,8 @@ class _HomePageState extends State<HomePage> {
       case "professor": { return ProfNavDrawer(); }
       break;
       case "security": { return SecNavDrawer(); }
+      break;
+      case "admin": { return AdmnNavDrawer(); }
       break;
     }
   }
