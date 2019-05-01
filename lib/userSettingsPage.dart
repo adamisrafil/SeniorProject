@@ -73,8 +73,18 @@ class _UserSettingsPage extends State<UserSettingsPage> {
     return regex.hasMatch(input);
   }
 
+  final TextEditingController controllerName = TextEditingController();
+  final TextEditingController controllerID = TextEditingController();
+  final TextEditingController controllerRole = TextEditingController();
+
   void _submitForm() {
     final FormState form = _formKey.currentState;
+
+    setState(() {
+      updatedUser.name = controllerName.text;
+      updatedUser.ID = controllerID.text;
+      updatedUser.role = newUserRole;
+    });
 
     var userManager = new UserManager();
     userManager.updateUser(updatedUser, mCurrentUser.uid);
@@ -114,6 +124,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
             child: new ListView(
               children: <Widget>[
                 new TextFormField(
+                    controller: controllerName,
                   decoration: new InputDecoration(
                     hintText: 'Name',
                     labelText: 'Your Name'
@@ -126,6 +137,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                     onSaved: (val) => updatedUser.name = val
                 ),
                 new TextFormField(
+                    controller: controllerID,
                     decoration: new InputDecoration(
                         hintText: '1234567',
                         labelText: 'ID number'
@@ -134,6 +146,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                     onSaved: (val) => updatedUser.ID = val
                 ),
                 new TextFormField(
+                  controller: controllerRole,
                     obscureText: true,
                     decoration: new InputDecoration(
                         hintText: 'User Role Code',

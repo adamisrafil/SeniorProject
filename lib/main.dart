@@ -6,7 +6,8 @@ import 'package:SeniorProject/evalPage.dart';
 import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
-import 'package:SeniorProject/studentnavdrawer.dart';
+import 'package:SeniorProject/qrScanner.dart';
+import 'package:SeniorProject/securityLog.dart';
 
 void main() {
   runApp(new MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Flutter login demo',
+        title: 'GenZ ID',
         debugShowCheckedModeBanner: false,
         theme: new ThemeData(
           primarySwatch: Colors.blue,
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
           '/forumPage' : (BuildContext context) => new ForumPage(),
           '/eventPage' : (BuildContext context) => new EventPage(),
           '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
+          '/qrScanner' : (BuildContext context) => new ScanScreen(),
+          '/securityLog' : (BuildContext context) => new SecurityLog(),
     },
     );
   }
