@@ -47,9 +47,13 @@ class _ScanState extends State<ScanScreen> {
   }
 
 
-  Future<void> _uploadUser(barcode) async{
+  Future<void> _uploadUser(String barcode) async{
+    await _getNYITID(barcode);
+    await _getName(barcode);
     Map<String, dynamic> scannedUser = Map();
     scannedUser["ID"] = barcode;
+    scannedUser["NYITID"] = usersNYITID;
+    scannedUser["name"] = usersName;
     scannedUser["time"] = now;
     scannedUser["day"] = now.day;
     scannedUser["month"] = now.month;
@@ -96,9 +100,9 @@ class _ScanState extends State<ScanScreen> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
-      _getName(barcode);
-      _getNYITID(barcode);
-      _uploadUser(barcode);
+//      await _getName(barcode);
+//      await _getNYITID(barcode);
+      await _uploadUser(barcode);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {

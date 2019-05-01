@@ -17,46 +17,17 @@ class _SecurityLogState extends State<SecurityLog> {
     super.initState();
   }
 
-  User updatedUser = new User();
-  var userManager = new UserManager();
-
-  String usersName;
-  String usersNYITID;
-
-  _getName(String ID) async{
-    await userManager.getUserName(ID).then((String res) {
-      print("Name incoming: " + res);
-      setState(() {
-        res != null ? usersName = res.toString() : "Having trouble";
-      });
-    });
-  }
-
-  _getNYITID(String ID) async{
-    await userManager.getUserNYITIDNumber(ID).then((String res) {
-      print("ID incoming: " + res);
-      setState(() {
-        res != null ? usersNYITID = res.toString() : "Having trouble";
-      });
-    });
-  }
-
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
-    _getNYITID(document['ID'].toString());
-    _getName(document['ID'].toString());
-    if (usersName == null) _getName(document['ID'].toString());
-    if (usersNYITID == null) _getName(document['ID'].toString());
-
     return ListTile (
       title: Row(
         children: [
             Text(
-              "ID: " + usersNYITID + " ",
-              style: TextStyle(fontSize: 10),
+              "ID: " + document['NYITID'] + " ",
+              style: TextStyle(fontSize: 11),
             ),
             Text(
-              "NAME: " + usersName + " ",
-              style: TextStyle(fontSize: 10),
+              "NAME: " + document['name'].toString() + " ",
+              style: TextStyle(fontSize: 11),
             ),
             Text(
               "ENTERED: " + document['time'].toString() + " ",
