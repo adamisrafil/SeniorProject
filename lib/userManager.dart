@@ -13,12 +13,13 @@ class UserManager {
       Map<String, dynamic> userData = Map();
       userData["name"] = user.name;
       userData["ID"] = user.ID;
-//      userData["Role"] = user.role;
+      userData["role"] = user.role;
       Firestore.instance.collection("users").document(uid).setData(userData, merge: true);
     }
 
     Future<String> getUserEmail(String userID) async {
       print("we called the getUserEmail function");
+      //TODO
       DocumentSnapshot snapshot = await Firestore.instance.collection("users").document(userID).get();
       var userEmail = snapshot['email'];
       if (userEmail is String){
@@ -53,6 +54,19 @@ class UserManager {
       }
       else{
         return "Error getting NYIT ID";
+      }
+    }
+
+    Future<String> getUserRole(String userID) async {
+      print("we called the getUserRole function");
+      DocumentSnapshot snapshot = await Firestore.instance.collection("users").document(userID).get();
+      var userRole = snapshot['role'];
+      if (userRole is String){
+        print("we got the role captain");
+        return userRole;
+      }
+      else{
+        return "student";
       }
     }
 }

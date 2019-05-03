@@ -26,6 +26,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
   FirebaseUser mCurrentUser;
   FirebaseAuth _auth;
   User updatedUser = new User();
+  String newUserRole;
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -47,12 +48,43 @@ class _UserSettingsPage extends State<UserSettingsPage> {
   }
 
   bool isValidUserCode(String input) {
-    final RegExp regex = new RegExp('123456789');
+    RegExp regex = new RegExp('');
+    switch(input){
+      case '123456789': {
+        newUserRole = "professor";
+        regex = new RegExp('123456789');
+      }
+      break;
+      case '987654321': {
+        newUserRole = "security";
+        regex = new RegExp('987654321');
+      }
+      break;
+      case '666': {
+        newUserRole = "student";
+        regex = new RegExp('666');
+      }
+      break;
+      case '': {
+         regex = new RegExp('');
+
+      }
+    }
     return regex.hasMatch(input);
   }
 
+  final TextEditingController controllerName = TextEditingController();
+  final TextEditingController controllerID = TextEditingController();
+  final TextEditingController controllerRole = TextEditingController();
+
   void _submitForm() {
     final FormState form = _formKey.currentState;
+
+    setState(() {
+      updatedUser.name = controllerName.text;
+      updatedUser.ID = controllerID.text;
+      updatedUser.role = newUserRole;
+    });
 
     var userManager = new UserManager();
     userManager.updateUser(updatedUser, mCurrentUser.uid);
@@ -65,7 +97,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
       print('Form save called, newContact is now up to date...');
       print('Name: ${updatedUser.name}');
       print('ID: ${updatedUser.ID}');
-//      print('Role: ${updatedUser.role}');
+      print('Role: ${updatedUser.role}');
       print('========================================');
       print('Submitting to back end...');
       print('TODO - we will write the submission part next...');
@@ -92,13 +124,20 @@ class _UserSettingsPage extends State<UserSettingsPage> {
             child: new ListView(
               children: <Widget>[
                 new TextFormField(
+                    controller: controllerName,
                   decoration: new InputDecoration(
                     hintText: 'Name',
                     labelText: 'Your Name'
                   ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                    },
                     onSaved: (val) => updatedUser.name = val
                 ),
                 new TextFormField(
+                    controller: controllerID,
                     decoration: new InputDecoration(
                         hintText: '1234567',
                         labelText: 'ID number'
@@ -106,13 +145,16 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                   inputFormatters: [new LengthLimitingTextInputFormatter(7)],
                     onSaved: (val) => updatedUser.ID = val
                 ),
-//                new TextFormField(
-//                    obscureText: true,
-//                    decoration: new InputDecoration(
-//                        hintText: 'User Role Code',
-//                        labelText: 'Enter code (for faculty and staff only)',
-//                    ),
-//                ),
+                new TextFormField(
+                  controller: controllerRole,
+                    obscureText: true,
+                    decoration: new InputDecoration(
+                        hintText: 'User Role Code',
+                        labelText: 'Enter code (for faculty and staff only)',
+                    ),
+                    validator: (value) => isValidUserCode(value) ? null : 'Not a valid code',
+                    onSaved: (value) => updatedUser.role = newUserRole,
+                ),
                 new Text("Bugs suck, please hit submit button twice in order to send data.", textAlign: TextAlign.center,),
                 new Container(
                     padding: const EdgeInsets.only(left: 40.0, top: 20.0, right: 40.0),
@@ -121,7 +163,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                       onPressed: _submitForm,
                     )
                 ),
-                new Text("Changes will take effect next time you close and reopen page.", textAlign: TextAlign.center,),
+                new Text("Changes will take effect next time you close and reopen app.", textAlign: TextAlign.center,),
               ],
             )
         ),
