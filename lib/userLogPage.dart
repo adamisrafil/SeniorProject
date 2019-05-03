@@ -55,33 +55,29 @@ class _userLogState extends State<userLog> {
     });
   }
 
-  Widget allUsers() {
-    Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
-      return ListTile (
-        title: Row(
-          children: [
-            Text(
-              "ID: " + document['ID'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-            Text(
-              "NAME: " + document['name'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-            Text(
-              "ROLE: " + document['role'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget build(BuildContext context) {
-      return new Scaffold(
-          appBar: new AppBar(
-            title: new Text('Scanner'),
+  Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
+    return ListTile (
+      title: Row(
+        children: [
+          Text(
+            "ID: " + document['ID'].toString() + " ",
+            style: TextStyle(fontSize: 11),
           ),
+          Text(
+            "NAME: " + document['name'].toString() + " ",
+            style: TextStyle(fontSize: 11),
+          ),
+          Text(
+            "EMAIL: " + document['email'].toString() + " ",
+            style: TextStyle(fontSize: 11),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget allUsers() {
+      return new Scaffold(
           body: StreamBuilder(
               stream: Firestore.instance.collection('users').snapshots(),
               builder: (context, snapshot) {
@@ -94,36 +90,10 @@ class _userLogState extends State<userLog> {
               }
           )
       );
-    }
   }
 
   Widget students() {
-    Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
-      return ListTile (
-        title: Row(
-          children: [
-            Text(
-              "ID: " + document['ID'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-            Text(
-              "NAME: " + document['name'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-            Text(
-              "EMAIL: " + document['email'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget build(BuildContext context) {
       return new Scaffold(
-          appBar: new AppBar(
-            title: new Text('Scanner'),
-          ),
           body: StreamBuilder(
               stream: Firestore.instance.collection('users').where("role", isEqualTo: "student").snapshots(),
               builder: (context, snapshot) {
@@ -136,36 +106,10 @@ class _userLogState extends State<userLog> {
               }
           )
       );
-    }
   }
 
   Widget professors() {
-    Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
-      return ListTile (
-        title: Row(
-          children: [
-            Text(
-              "ID: " + document['ID'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-            Text(
-              "NAME: " + document['name'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-            Text(
-              "EMAIL: " + document['email'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget build(BuildContext context) {
       return new Scaffold(
-          appBar: new AppBar(
-            title: new Text('Scanner'),
-          ),
           body: StreamBuilder(
               stream: Firestore.instance.collection('users').where("role", isEqualTo: "professor").snapshots(),
               builder: (context, snapshot) {
@@ -178,35 +122,10 @@ class _userLogState extends State<userLog> {
               }
           )
       );
-    }
   }
-  Widget security() {
-    Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
-      return ListTile (
-        title: Row(
-          children: [
-            Text(
-              "ID: " + document['ID'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-            Text(
-              "NAME: " + document['name'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-            Text(
-              "EMAIL: " + document['email'].toString() + " ",
-              style: TextStyle(fontSize: 11),
-            ),
-          ],
-        ),
-      );
-    }
 
-    Widget build(BuildContext context) {
+  Widget security(BuildContext context) {
       return new Scaffold(
-          appBar: new AppBar(
-            title: new Text('Scanner'),
-          ),
           body: StreamBuilder(
               stream: Firestore.instance.collection('users').where("role", isEqualTo: "security").snapshots(),
               builder: (context, snapshot) {
@@ -219,7 +138,7 @@ class _userLogState extends State<userLog> {
               }
           )
       );
-    }
+
   }
 
   Widget build(BuildContext context) {
@@ -242,7 +161,7 @@ class _userLogState extends State<userLog> {
             allUsers(),
             students(),
             professors(),
-            security(),
+            security(context),
             //put new class stateless widget here and in the new class call pagewiselistview
           ],
         ),),
