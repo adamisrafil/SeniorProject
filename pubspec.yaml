@@ -56,7 +56,10 @@ flutter:
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
   assets:
+  - assets/nyitlogo.png
   - assets/gen_icon.png
+  - assets/selector.png
+
   - assets/cal_Backgrounds/monday.jpg
   - assets/cal_Backgrounds/tuesday.jpg
   - assets/cal_Backgrounds/thursday.jpg

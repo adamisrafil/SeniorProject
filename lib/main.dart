@@ -1,3 +1,4 @@
+import 'package:SeniorProject/coure_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:SeniorProject/root_page.dart';
@@ -9,13 +10,22 @@ import 'package:SeniorProject/userSettingsPage.dart';
 import 'package:SeniorProject/qrScanner.dart';
 import 'package:SeniorProject/securityLog.dart';
 
+
 void main() {
   runApp(new MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   @override
+
+
   Widget build(BuildContext context) {
+    ThemeData(
+      fontFamily: 'PoiretOne',
+      canvasColor: Colors.teal,
+      backgroundColor: Colors.white12,
+    );
     return new MaterialApp(
         title: 'GenZ ID',
         debugShowCheckedModeBanner: false,
@@ -31,6 +41,7 @@ class MyApp extends StatelessWidget {
           '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
           '/qrScanner' : (BuildContext context) => new ScanScreen(),
           '/securityLog' : (BuildContext context) => new SecurityLog(),
+          '/course_selector' : (BuildContext context) => new CourseSelector(),
     },
     );
   }
