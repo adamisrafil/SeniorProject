@@ -8,6 +8,7 @@ import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
 import 'package:SeniorProject/qrScanner.dart';
 import 'package:SeniorProject/securityLog.dart';
+import 'package:SeniorProject/userLogPage.dart';
 
 void main() {
   runApp(new MyApp());
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
           '/qrScanner' : (BuildContext context) => new ScanScreen(),
           '/securityLog' : (BuildContext context) => new SecurityLog(),
+          '/userLog' : (BuildContext context) => new userLog(),
     },
     );
   }
