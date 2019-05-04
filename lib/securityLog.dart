@@ -19,7 +19,11 @@ class _SecurityLogState extends State<SecurityLog> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     return ListTile (
-      title: Row(
+      title: Text(
+        "ID: " + document['ID'].toString() + " ",
+        style: TextStyle(fontSize: 11),
+      ),
+      subtitle: Row(
         children: [
             Text(
               "ID: " + document['NYITID'] + " ",
@@ -48,7 +52,7 @@ class _SecurityLogState extends State<SecurityLog> {
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text('Loading...');
            return ListView.builder(
-               itemExtent: 100.0,
+               itemExtent: 50.0,
                itemCount: snapshot.data.documents.length,
                itemBuilder: (context, index) => _buildListItem(context, snapshot.data.documents[index]),
            );

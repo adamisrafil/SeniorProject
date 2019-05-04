@@ -13,68 +13,55 @@ import 'package:SeniorProject/userManager.dart';
 import 'package:SeniorProject/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:flutter/services.dart';
+
 
 class userLog extends StatefulWidget {
   @override
-  _userLogState createState() => new _userLogState();
+  userLogState createState() => new userLogState();
 }
 
-class _userLogState extends State<userLog> {
-  String accountStatus = '******';
-  FirebaseUser mCurrentUser;
-  FirebaseAuth _auth;
-  User updatedUser = new User();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-
-  var userManager = new UserManager();
-  String usersName = "Go to settings and update";
-
+class userLogState extends State<userLog> {
   @override
   void initState() {
     super.initState();
-    _auth = FirebaseAuth.instance;
-    _getCurrentUser();
-    print('here outside async');
-
-  }
-  _getCurrentUser () async {
-    mCurrentUser = await _auth.currentUser();
-    print('Hello ' + mCurrentUser.uid);
-    setState(() {
-      mCurrentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
-    });
-    _getName();
-  }
-  _getName() async{
-    await userManager.getUserName(mCurrentUser.uid).then((String res) {
-      print("Name incoming: " + res);
-      setState(() {
-        res != null ? usersName = res.toString() : "Having trouble";
-      });
-    });
   }
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
+  Widget buildListItem(BuildContext context, DocumentSnapshot document) {
+    String documentID = document.documentID;
     return ListTile (
-      title: Row(
+      title: Text(
+        "ID: " + document['ID'].toString() + " ",
+        style: TextStyle(fontSize: 15),
+      ),
+      subtitle: Row(
         children: [
-          Text(
-            "ID: " + document['ID'].toString() + " ",
-            style: TextStyle(fontSize: 11),
+          Column(
+            children:[
+              Text(
+                "NAME: " + document['name'].toString() + " ",
+                style: TextStyle(fontSize: 10),
+              ),
+            ],
           ),
-          Text(
-            "NAME: " + document['name'].toString() + " ",
-            style: TextStyle(fontSize: 11),
-          ),
-          Text(
-            "EMAIL: " + document['email'].toString() + " ",
-            style: TextStyle(fontSize: 11),
+          Column(
+            children:[
+              Text(
+                "EMAIL: " + document['email'].toString() + " ",
+                style: TextStyle(fontSize: 10),
+              ),
+            ],
           ),
         ],
       ),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: () {
+          Navigator.push(context, new MaterialPageRoute(
+              builder: (context) => new adminUserUpdate(documentID: documentID,)));
+        }
     );
   }
+
 
   Widget allUsers() {
       return new Scaffold(
@@ -83,9 +70,9 @@ class _userLogState extends State<userLog> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('Loading...');
                 return ListView.builder(
-                  itemExtent: 100.0,
+                  itemExtent: 50.0,
                   itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) => _buildListItem(context, snapshot.data.documents[index]),
+                  itemBuilder: (context, index) => buildListItem(context, snapshot.data.documents[index]),
                 );
               }
           )
@@ -99,9 +86,9 @@ class _userLogState extends State<userLog> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('Loading...');
                 return ListView.builder(
-                  itemExtent: 100.0,
+                  itemExtent: 50.0,
                   itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) => _buildListItem(context, snapshot.data.documents[index]),
+                  itemBuilder: (context, index) => buildListItem(context, snapshot.data.documents[index]),
                 );
               }
           )
@@ -115,25 +102,25 @@ class _userLogState extends State<userLog> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('Loading...');
                 return ListView.builder(
-                  itemExtent: 100.0,
+                  itemExtent: 50.0,
                   itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) => _buildListItem(context, snapshot.data.documents[index]),
+                  itemBuilder: (context, index) => buildListItem(context, snapshot.data.documents[index]),
                 );
               }
           )
       );
   }
 
-  Widget security(BuildContext context) {
+  Widget security() {
       return new Scaffold(
           body: StreamBuilder(
               stream: Firestore.instance.collection('users').where("role", isEqualTo: "security").snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const Text('Loading...');
                 return ListView.builder(
-                  itemExtent: 100.0,
+                  itemExtent: 50.0,
                   itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) => _buildListItem(context, snapshot.data.documents[index]),
+                  itemBuilder: (context, index) => buildListItem(context, snapshot.data.documents[index]),
                 );
               }
           )
@@ -161,10 +148,166 @@ class _userLogState extends State<userLog> {
             allUsers(),
             students(),
             professors(),
-            security(context),
+            security(),
             //put new class stateless widget here and in the new class call pagewiselistview
           ],
         ),),
+    );
+  }
+}
+
+class adminUserUpdate extends StatefulWidget {
+  final String documentID;
+
+  const adminUserUpdate({Key key, this.documentID}) : super(key: key);
+  @override
+  _adminUserUpdateState createState() => new _adminUserUpdateState();
+}
+
+class _adminUserUpdateState extends State<adminUserUpdate> {
+
+  String accountStatus = '******';
+  FirebaseUser mCurrentUser;
+  FirebaseAuth _auth;
+  User updatedUser = new User();
+  String newUserRole;
+
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _auth = FirebaseAuth.instance;
+  }
+
+  bool isValidUserCode(String input) {
+    RegExp regex = new RegExp('');
+    switch(input){
+      case 'professor': {
+        newUserRole = "professor";
+        regex = new RegExp('professor');
+      }
+      break;
+      case 'security': {
+        newUserRole = "security";
+        regex = new RegExp('security');
+      }
+      break;
+      case 'student': {
+        newUserRole = "student";
+        regex = new RegExp('student');
+      }
+      break;
+      case 'admin': {
+        newUserRole = "admin";
+        regex = new RegExp('admin');
+      }
+      break;
+      case '': {
+        regex = new RegExp('');
+      }
+    }
+    return regex.hasMatch(input);
+  }
+
+  final TextEditingController controllerName = TextEditingController();
+  final TextEditingController controllerID = TextEditingController();
+  final TextEditingController controllerRole = TextEditingController();
+
+  void _submitForm() {
+    final FormState form = _formKey.currentState;
+
+    setState(() {
+      updatedUser.name = controllerName.text;
+      updatedUser.ID = controllerID.text;
+      updatedUser.role = newUserRole;
+    });
+
+    String studentDocumentID = widget.documentID;
+
+    var userManager = new UserManager();
+    userManager.updateUser(updatedUser, studentDocumentID);
+
+    if (!form.validate()) {
+      showMessage('Form is not valid!  Please review and correct.');
+    } else {
+      form.save(); //This invokes each onSaved event
+
+      print('Form save called, newContact is now up to date...');
+      print('Name: ${updatedUser.name}');
+      print('ID: ${updatedUser.ID}');
+      print('Role: ${updatedUser.role}');
+      print('========================================');
+      print('Submitting to back end...');
+      print('TODO - we will write the submission part next...');
+    }
+  }
+
+  void showMessage(String message, [MaterialColor color = Colors.red]) {
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(backgroundColor: color, content: new Text(message)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      key: _scaffoldKey,
+      appBar: new AppBar(
+        title: new Text('Settings'),
+      ),
+      body: new Container(
+        padding: new EdgeInsets.all(20.0),
+        child: new Form(
+            key: _formKey,
+            autovalidate: true,
+            child: new ListView(
+              children: <Widget>[
+                new TextFormField(
+                    controller: controllerName,
+                    decoration: new InputDecoration(
+                        hintText: 'Name',
+                        labelText: 'Your Name'
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                    },
+                    onSaved: (val) => updatedUser.name = val
+                ),
+                new TextFormField(
+                    controller: controllerID,
+                    decoration: new InputDecoration(
+                        hintText: '1234567',
+                        labelText: 'ID number'
+                    ),
+                    inputFormatters: [new LengthLimitingTextInputFormatter(7)],
+                    onSaved: (val) => updatedUser.ID = val
+                ),
+                new TextFormField(
+                  controller: controllerRole,
+                  obscureText: true,
+                  decoration: new InputDecoration(
+                    hintText: 'User Role Code',
+                    labelText: 'Enter code (for faculty and staff only)',
+                  ),
+                  validator: (value) => isValidUserCode(value) ? null : 'Not a valid code',
+                  onSaved: (value) => updatedUser.role = newUserRole,
+                ),
+                new Text("Bugs suck, please hit submit button twice in order to send data.", textAlign: TextAlign.center,),
+                new Container(
+                    padding: const EdgeInsets.only(left: 40.0, top: 20.0, right: 40.0),
+                    child: new RaisedButton(
+                      child: const Text('Submit'),
+                      onPressed: _submitForm,
+                    )
+                ),
+                new Text("Changes will take effect next time you close and reopen app.", textAlign: TextAlign.center,),
+              ],
+            )
+        ),
+      ),
     );
   }
 }

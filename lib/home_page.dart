@@ -45,7 +45,6 @@ class _HomePageState extends State<HomePage> {
   StreamSubscription<Event> _onTodoChangedSubscription;
 
   //Query _todoQuery;
-
   bool _isEmailVerified = false;
   var userManager = new UserManager();
   String usersEmail = "Searching...";
