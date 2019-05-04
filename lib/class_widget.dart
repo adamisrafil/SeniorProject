@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:SeniorProject/home_page.dart';
-var controlBox = {'CSCI 255 M01': false, 'tuesday': false, 'wednesday': false, 'thursday': false, 'Friday': false};
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
+
 
 class ClassWidget extends StatefulWidget {
   final String text;
@@ -9,7 +13,7 @@ class ClassWidget extends StatefulWidget {
   final String time ;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  ClassWidget(this.width, this.height, this.text, [this.time, Key key, this.scaffoldKey]) :super(key: key );
+  ClassWidget(this.width, this.height, this.text, this.time,{ Key key, this.scaffoldKey}) :super(key: key );
 
 
   @override
@@ -17,14 +21,15 @@ class ClassWidget extends StatefulWidget {
 }
 
 class ClassWidgetState extends State<ClassWidget> {
-  bool _enabledAbsent = false;
-  bool _enabledAttend = false;
+  bool _enabledAbsent = true;
   final String text;
   final double width;
   final String time;
   double height;
   bool isExpanded = false;
   String snackMessage;
+  String barcode = "";
+  DateTime now = new DateTime.now();
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -33,10 +38,36 @@ class ClassWidgetState extends State<ClassWidget> {
 
 
 
-  void _showSnackBar(bool value){
-    print (value);
-
+  Future<void> _uploadUser(barcode) async{
+    Map<String, dynamic> scannedUser = Map();
+    scannedUser["UserInfo"] = barcode;
+    scannedUser["timestamp"] = now;
+//    TODO: upate this moe
+    Firestore.instance.collection("course").add(scannedUser);
   }
+
+  Future scan() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() => this.barcode = barcode);
+      _enabledAbsent = false;
+      _uploadUser(barcode);
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          this.barcode = 'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() => this.barcode = 'Unknown error: $e');
+      }
+    } on FormatException{
+      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      setState(() => this.barcode = 'Unknown error: $e');
+    }
+  }
+
+
 
 
   @override
@@ -45,7 +76,7 @@ class ClassWidgetState extends State<ClassWidget> {
       child: Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
           child: Container(width: this.width * 0.9,
 //              height: this.height * 0.12,
-              decoration: BoxDecoration(color: Colors.white70,
+              decoration: BoxDecoration(color: Colors.teal[95],
                   borderRadius: BorderRadius.circular(25.0),
                   boxShadow: [ BoxShadow(color: Colors.white30,
                     blurRadius: 5.0,
@@ -57,12 +88,12 @@ class ClassWidgetState extends State<ClassWidget> {
               child: Padding(padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
                   child: ExpansionTile(
                     title: Container(child: Text(this.text,
-                          style: TextStyle(fontSize: isExpanded ? width * 0.07 : width * 0.09, fontFamily: 'PoiretOne', fontWeight: FontWeight.w700, color: isExpanded ? Colors.teal : Colors.black54),
+                          style: TextStyle(fontSize: isExpanded ? width * 0.075 : width * 0.09, fontFamily: 'PoiretOne', fontWeight: isExpanded? FontWeight.w600: FontWeight.w700, color: isExpanded ? Colors.teal[500] : Colors.black54),
                           textAlign: TextAlign.left,)
                     // Change header (which is a Container widget in this case) background colour here.
                   ),
                     leading:  Icon(Icons.developer_mode, size: 26.0) ,
-                    trailing: isExpanded ? Icon(Icons.keyboard_arrow_up, size: 36.0, color: Colors.blue,) : Icon(Icons.keyboard_arrow_down, size: 36.0, color: Colors.black54),
+                    trailing: isExpanded ? Icon(Icons.keyboard_arrow_up, size: 36.0, color: Colors.teal[500],) : Icon(Icons.keyboard_arrow_down, size: 36.0, color: Colors.black54),
                     children: <Widget>[
                       Align(
                         alignment: Alignment.centerLeft,
@@ -102,8 +133,10 @@ class ClassWidgetState extends State<ClassWidget> {
                                         shape: CircleBorder(),
                                         elevation: 15.0,
                                         child: Icon(Icons.check, size: 23.0, color: Colors.white),
-                                        onPressed: (){
-                                          //TODO: need help getting this to open camera API. Ran into problem with Global Keys
+                                        onPressed:(){
+                                          scan();
+
+
                                         },
                                       ),
                                     ),
@@ -117,12 +150,11 @@ class ClassWidgetState extends State<ClassWidget> {
                                         disabledColor: Colors.deepOrange,
                                         disabledElevation: 5.0,
                                         child: Icon(Icons.close, size: 23.0, color: Colors.white),
-//                                        onPressed: () {
-//                                          _enabledAbsent = !_enabledAbsent;
-//                                          if (_enabledAbsent){
-//                                            scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('you wil be marked as absent from ${this.text})', textAlign: TextAlign.center, style: TextStyle( fontFamily: 'PoiretOne', fontWeight: FontWeight.bold, color: Colors.white),),backgroundColor: Colors.redAccent, ));
-//                                          }
-//                                        } ,
+                                        onPressed: () {
+                                          if (_enabledAbsent){
+                                            widget.scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('you wil be marked as absent from ${this.text})', textAlign: TextAlign.center, style: TextStyle( fontFamily: 'PoiretOne', fontWeight: FontWeight.bold, color: Colors.white),),backgroundColor: Colors.redAccent, duration: Duration(milliseconds: 1400), ));
+                                          }
+                                        } ,
                                       ),
                                     ),
 
@@ -167,39 +199,6 @@ class DayPageState extends State<DayPage> {
   List <Widget> widgets;
 
 
-  //find if a class object has changed state
-
-//  bool getState(List <Widget> w) {
-//    var temp = false;
-//    for (var i = 1; i < w.length; i++) {
-//      if (controlBox[w[i].text] == true) {
-//        temp = true;
-//        return temp;
-//      }
-//    }
-//  }
-
-  // change said class object
-//bool changeState(List <Widget> w) {
-//    var temp = false;
-//    var tempIndex = null;
-//    for (var i = 1; i < w.length; i++) {
-//      print(w[i]);
-//
-//    }
-//    return true;
-//  }
-
-//
-////    for (var i = 1; i < w.length; i++) {
-////      if (i != tempIndex) {
-////        w[i].setHeight(this.height * 0.2)
-////      }
-////    }
-//
-//    return w;
-//  }
-
   DayPageState(this.width, this.height, this.background, this.widgets);
 
   @override
@@ -210,82 +209,17 @@ class DayPageState extends State<DayPage> {
           decoration: BoxDecoration(
               image: DecorationImage(image: this.background, fit: BoxFit.fill),
               borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [ BoxShadow(color: Colors.black87,
-                blurRadius: 10.0,
+              boxShadow: [ BoxShadow(color: Colors.black38,
+                blurRadius: 5.0,
                 // has the effect of softening the shadow
-                spreadRadius: 10.0,
+                spreadRadius: 8.0,
                 // has the effect of extending the shadow
-                offset: Offset(1.0, 1.0,),)
+                offset: Offset(0.0, 10.0,),)
               ]),
           child: ListView.builder(itemCount: this.widgets.length ,itemBuilder: (context, position) => widgets[position])))) ;
   }
 }
 
-
-class ClassWidget1 extends StatelessWidget {
-  @override
-  final double width;
-  final double height;
-  final String text;
-
-  //constructor
-  ClassWidget1(this.width, this.height, this.text);
-
-
-  Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-        child: Container(width: this.width * 0.9,
-            height: this.height * 0.12,
-            decoration: BoxDecoration(color: Colors.white70,
-                borderRadius: BorderRadius.circular(25.0),
-                boxShadow: [ BoxShadow(color: Colors.white30,
-                  blurRadius: 5.0,
-                  // has the effect of softening the shadow
-                  spreadRadius: 1.0,
-                  // has the effect of extending the shadow
-                  offset: Offset(0.0, 2.0,),)
-                ]),
-            child: Padding(padding: EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                child: Text(text)
-//            child: ExpansionTile(
-//                title: Text(this.text, style: TextStyle(fontSize: width * 0.06, fontFamily: 'PoiretOne', fontWeight: FontWeight.w700), textAlign: TextAlign.left,),
-//          )),
-            )));
-  }
-}
-
-
-class DayPage1 extends StatelessWidget {
-
-  final double width;
-  final double height;
-  final AssetImage background;
-  final List <Widget> widgets;
-
-// constructor
-  DayPage1(this.width, this.height, this.background, this.widgets);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 40.0),
-        child: Center(child: Container(width: this.width,
-          height: this.height,
-          decoration: BoxDecoration(
-              image: DecorationImage(image: this.background, fit: BoxFit.fill),
-              borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [ BoxShadow(color: Colors.black87,
-                blurRadius: 10.0,
-                // has the effect of softening the shadow
-                spreadRadius: 10.0,
-                // has the effect of extending the shadow
-                offset: Offset(1.0, 1.0,),)
-              ]),
-          child: Stack( //TODO: may need alignment attributes
-              children: <Widget>[ Column(
-                mainAxisAlignment: MainAxisAlignment.start, children: widgets,)
-              ]),)));
-  }
-}
 
 class DayPageHeader extends StatelessWidget {
 
@@ -325,7 +259,7 @@ class DayPageHeader extends StatelessWidget {
 var monday = new AssetImage('assets/cal_Backgrounds/monday.jpg');
 var tuesday = new AssetImage('assets/cal_Backgrounds/tuesday.jpg');
 var wednesday = new AssetImage('assets/cal_Backgrounds/wednesday.jpg');
-var thursday = new AssetImage('assets/cal_Backgrounds/monday.jpg');
+var thursday = new AssetImage('assets/cal_Backgrounds/thursday.jpg');
 var friday = new AssetImage('assets/cal_Backgrounds/friday.png');
 
 var one = new AssetImage('assets/headerbackgrounds/one.jpeg');
