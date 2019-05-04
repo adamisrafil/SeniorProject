@@ -19,6 +19,7 @@ class UserManager {
 
     Future<String> getUserEmail(String userID) async {
       print("we called the getUserEmail function");
+      //TODO
       DocumentSnapshot snapshot = await Firestore.instance.collection("users").document(userID).get();
       var userEmail = snapshot['email'];
       if (userEmail is String){

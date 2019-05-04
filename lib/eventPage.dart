@@ -41,10 +41,10 @@ class _EventPageState extends State<EventPage> {
       ),
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text('My Calendar'),
-          leading: IconButton(icon:Icon(Icons.arrow_back),
-            onPressed:() => Navigator.pop(context, false),
-          )
+            title: new Text('My Calendar'),
+            leading: IconButton(icon:Icon(Icons.arrow_back),
+              onPressed:() => Navigator.pop(context, false),
+            )
         ),
 
         body: new Container(
@@ -76,8 +76,8 @@ class _EventPageState extends State<EventPage> {
           child: Icon(Icons.add),
 
         ),
-    ),
-      );
+      ),
+    );
   }
   Widget buildEventList() {
     if (selectedEvents != null) {
@@ -104,6 +104,5 @@ class _EventPageState extends State<EventPage> {
     }
   }
 }
-
 
 

@@ -83,10 +83,7 @@ class _NavDrawerState extends State<StudNavDrawer> {
                   style: TextStyle(color: Colors.black),
                 ),
                 decoration: new BoxDecoration(
-                  image: new DecorationImage(
-                    image: new ExactAssetImage('assets/nyitlogo.png'),
-                    fit: BoxFit.cover,
-                  ),
+                  image: new DecorationImage(image: new ExactAssetImage('assets/nyitlogo.png'), fit: BoxFit.cover, ),
                 ),
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.teal,
@@ -142,6 +139,19 @@ class _NavDrawerState extends State<StudNavDrawer> {
                   Navigator.of(context).pushNamed('/eventPage');
                 },
               ),
+              ListTile(
+                title: Text('Class Selector'),
+                leading: Icon(Icons.edit),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed('/course_selector');
+                },
+              ),
+
               ListTile(
                 title: Text('Settings'),
                 leading: Icon(Icons.settings),

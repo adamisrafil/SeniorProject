@@ -155,7 +155,7 @@ class _CalendarState extends State<Calendar> {
   List<Widget> calendarBuilder() {
     List<Widget> dayWidgets = [];
     List<DateTime> calendarDays =
-        isExpanded ? selectedMonthsDays : selectedWeeksDays;
+    isExpanded ? selectedMonthsDays : selectedWeeksDays;
 
     Utils.weekdays.forEach(
           (day) {
@@ -177,10 +177,10 @@ class _CalendarState extends State<Calendar> {
 
     calendarDays.forEach(
           (day) {
-            if (day.hour > 0) {
-              day = day.toLocal();
-              day = day.subtract(new Duration(hours: day.hour));
-            }
+        if (day.hour > 0) {
+          day = day.toLocal();
+          day = day.subtract(new Duration(hours: day.hour));
+        }
         if (monthStarted && day.day == 01) {
           monthEnded = true;
         }
@@ -236,7 +236,7 @@ class _CalendarState extends State<Calendar> {
 
       dateStyles = monthStarted && !monthEnded ? body1Style: body1StyleDisabled; // monthStarted & !monthEnded happens then first one otherwise second one
     } else
-      {
+    {
       dateStyles = body1Style;
     }
     return dateStyles;
