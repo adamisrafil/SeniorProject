@@ -7,6 +7,7 @@ import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
 import 'package:SeniorProject/studentnavdrawer.dart';
+import 'package:SeniorProject/notification.dart';
 
 void main() {
   runApp(new MyApp());
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
           '/forumPage' : (BuildContext context) => new ForumPage(),
           '/eventPage' : (BuildContext context) => new EventPage(),
           '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
+          '/notiPage': (BuildContext context) => new NotificationPage(),
     },
     );
   }

@@ -107,6 +107,18 @@ class _NavDrawerState extends State<SecNavDrawer> {
                 },
               ),
               ListTile(
+                title: Text('Notifications'),
+                leading: Icon(Icons.notification_important),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed('/notiPage');
+                },
+              ),
+              ListTile(
                 title: Text('Event Calendar'),
                 leading: Icon(Icons.calendar_today),
                 trailing: Icon(Icons.arrow_forward),
