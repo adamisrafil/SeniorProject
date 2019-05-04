@@ -10,8 +10,10 @@ class _EventPageState extends State<EventPage> {
   List selectedEvents;
   DateTime selectedDate;
   final Map events = {
-    DateTime(2019, 4, 29):
-    [{'name': 'Avengers', 'isDone': false}]
+    DateTime(2019, 5, 1):
+      [{'name': 'May Day', 'isDone': true}],
+    DateTime(2019, 5, 27):
+      [{'name': 'Memorial Day', 'isDone': true}]
   };
   @override
   void initstate() {
@@ -37,7 +39,7 @@ class _EventPageState extends State<EventPage> {
       title: 'Calendar',
       theme: new ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: new Scaffold(
         appBar: new AppBar(
@@ -81,26 +83,45 @@ class _EventPageState extends State<EventPage> {
   }
   Widget buildEventList() {
     if (selectedEvents != null) {
-      return Container(
-        child: ListView.builder(
-          itemBuilder: (BuildContext context, int index) =>
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(width: 1.5, color: Colors.black12),
+      return Row(
+        children: <Widget>[
+            Expanded(
+              child: Center (
+              child: Container(
+                  margin: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blueAccent),
+                  ),
+                  height: 100,
+                  child: ListView.builder(
+                            itemCount: selectedEvents.length,
+                            itemBuilder: (context, index) {
+                              return new Center(
+                                  child: Text(selectedEvents[index]['name'])
+                              );
+                            },
+                        ),
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
-                child: ListTile(
-                  title: Text(selectedEvents[index]['name'].toString()),
-                  //onTap: () {},
-                ),
-              ),
-          itemCount: selectedEvents.length,
-        ),
+            ),
+            ],
       );
     } else {
-      return Container();
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                height: 100,
+                child: Container(
+                 child: Text("No Events Today"),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
     }
   }
 }
