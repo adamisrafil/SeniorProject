@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/calendar.dart';
 
+
 class EventPage extends StatefulWidget {
   @override
   _EventPageState createState() => new _EventPageState();
@@ -9,17 +10,23 @@ class EventPage extends StatefulWidget {
 class _EventPageState extends State<EventPage> {
   List selectedEvents;
   DateTime selectedDate;
-  final Map events = {
-    DateTime(2019, 5, 1):
-      [{'name': 'May Day', 'isDone': true}],
-    DateTime(2019, 5, 27):
-      [{'name': 'Memorial Day', 'isDone': true}]
-  };
+
   @override
   void initstate() {
     super.initState();
     selectedEvents = events[selectedDate] ?? [];
   }
+
+  final Map events = {
+    DateTime(2019, 5, 1):
+    [{'name': 'May Day', 'isDone': true}],
+    DateTime(2019, 5, 27):
+    [{'name': 'Memorial Day', 'isDone': true}],
+    DateTime(2019, 5, 8):
+    [{'name': 'Senior Design Presentation 10AM-12PM', 'isDone': true}]
+  };
+
+  final nameController = TextEditingController();
 
   void handleNewDate(date) {
     setState(() {
@@ -30,7 +37,11 @@ class _EventPageState extends State<EventPage> {
     print(selectedEvents);
   }
 
-
+  @override
+  void dispose(){
+    nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +50,7 @@ class _EventPageState extends State<EventPage> {
       title: 'Calendar',
       theme: new ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
       ),
       home: new Scaffold(
         appBar: new AppBar(
@@ -73,26 +84,49 @@ class _EventPageState extends State<EventPage> {
 
         ),
         floatingActionButton: FloatingActionButton (
-          onPressed: () => {},
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-
+          onPressed: (){
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Event Details"),
+                  content: new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: TextField(
+                          controller: nameController,
+                          decoration: InputDecoration(hintText: "Enter Name of Event"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  actions: <Widget>[
+                      new FlatButton(
+                        onPressed: (){
+                          events[selectedDate] = [{'name': nameController.text, 'isDone': true}];
+                          Navigator.of(context).pop();
+                        },
+                        child: new Text("Done")
+                      )
+                    ]
+                );
+              },
+            );
+          },
+          child: Icon(Icons.add)
         ),
       ),
     );
   }
+
   Widget buildEventList() {
     if (selectedEvents != null) {
       return Row(
         children: <Widget>[
             Expanded(
-              child: Center (
               child: Container(
                   margin: const EdgeInsets.all(15.0),
                   padding: const EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueAccent),
-                  ),
                   height: 100,
                   child: ListView.builder(
                             itemCount: selectedEvents.length,
@@ -103,27 +137,22 @@ class _EventPageState extends State<EventPage> {
                             },
                         ),
                   ),
-                ),
             ),
             ],
       );
     } else {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: Center(
-              child: SizedBox(
-                height: 100,
-                child: Container(
-                 child: Text("No Events Today"),
-                ),
-              ),
-            ),
-          ),
-        ],
+      return Container(
+        margin: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(3.0),
+        height: 100,
+        child: new Center(
+          child: Text("No Events Today"),
+        ),
       );
     }
   }
+
+
 }
 
 
