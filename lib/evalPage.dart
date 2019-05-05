@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'survey_1.dart';
-import 'survey_2.dart';
 import 'slide_right_transition.dart';
 import 'thank_you.dart';
 
@@ -72,7 +71,7 @@ class _EvalPageState extends State<EvalPage> {
                           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Classes()),
+              MaterialPageRoute(builder: (context) => ClassSurvey()),
             );
           },
                         ),

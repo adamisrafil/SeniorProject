@@ -1,4 +1,6 @@
+import 'survey_1.dart';
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 
 class ThankYouPage extends StatefulWidget {
   @override
@@ -24,32 +26,66 @@ class _ThankYouPageState extends State<ThankYouPage> {
                       fontSize: 19,
                       fontWeight: FontWeight.bold,
                     )),
-                subtitle: Text('Thank You For your Feedback. To evalauate another class select Done',
+                subtitle: Text('Thank You For your Feedback.',
                     style: TextStyle(
                       height: 2.5,
                       fontSize: 16,
                     )),
               ),
-              ButtonTheme.bar(
-                // make buttons use the appropriate styles for cards
-                child: ButtonBar(
-                  children: <Widget>[
-                    FlatButton(
-                      child: const Text(
-                        'Done',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushNamedAndRemoveUntil('/', (_) => false);
-                            
+
+
+new Divider(
+                                            height: 5.0,
+                                            color: Colors.black,
+                                          ),
+                                          new Padding(
+                                            padding: new EdgeInsets.all(8.0),
+                                          ),
+                                          new RaisedButton(
+                                            onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ClassSurvey()),
+            );
+          },
+                                            child: new Text(
+                                              'Evaluate Another Class',
+
+                                              style: new TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white),
+                                            ),
+                                            color: Theme.of(context).accentColor,
+                                            shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        20.0)),
+                                          ),
+                                          new Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                          ),
+                                          new RaisedButton(
+                                                onPressed: () {
+                        Navigator.push(
+              context,
+                       MaterialPageRoute(builder: (context) => HomePage()),
+                        );
                       },
-                    ),
-                  ],
-                ),
-              ),
+                                            child: new Text(
+                                              'Return to HomePage',
+                                              style: new TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 16.0,
+                                                  color: Colors.white),
+                                            ),
+                                            color: Theme.of(context).accentColor,
+                                            shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        20.0)),
+                                          ),
+
             ],
           ),
         ), // This trailing comma makes auto-formatting nicer for build methods.
