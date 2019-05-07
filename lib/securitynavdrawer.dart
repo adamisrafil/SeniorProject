@@ -103,7 +103,16 @@ class _NavDrawerState extends State<SecNavDrawer> {
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/qrPage');
+                  Navigator.of(context).pushNamed('/qrScanner');
+                },
+              ),
+              ListTile(
+                title: Text("Scan Log"),
+                leading: Icon(Icons.person_outline),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed('/securityLog');
                 },
               ),
               ListTile(
