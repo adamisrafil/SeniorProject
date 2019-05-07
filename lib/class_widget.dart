@@ -127,7 +127,7 @@ class ClassWidgetState extends State<ClassWidget> {
                                       textAlign: TextAlign.left,),
 
                                     Padding(
-                                      padding: EdgeInsets.fromLTRB(width *0.19 , 0.0, 0.0, 0.0),
+                                      padding: EdgeInsets.fromLTRB(width *0.15 , 0.0, 0.0, 0.0),
                                       child: RaisedButton(
 
                                         color: Colors.teal,
@@ -250,8 +250,8 @@ class DayPageHeader extends StatelessWidget {
             ]),
         child: Stack(children: <Widget>[ Padding(
           padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 100.0),
-          child: Text(this.text, style: TextStyle(fontFamily: 'Galada',
-              fontSize: this.width * 0.2,
+          child: Text(this.text, style: TextStyle(fontFamily: 'PoiretOne',
+              fontSize: this.width * 0.15,
               color: Colors.white),),),
         ]));
   }
