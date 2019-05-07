@@ -1,3 +1,4 @@
+import 'package:SeniorProject/coure_selector.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ import 'package:SeniorProject/securitynavdrawer.dart';
 import 'package:SeniorProject/courseManagement.dart';
 import 'package:SeniorProject/class_widget.dart';
 import 'package:SeniorProject/root_page.dart';
+
+var schedule = [];
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root, this.courseManagement})
@@ -72,15 +75,6 @@ class _HomePageState extends State<HomePage> {
     print('here outside async');
     _checkEmailVerification();
 
-    courseManager.getCoursesList().then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        coursesFlag = true;
-
-        for (int i = 0; i < docs.documents.length; i++){
-          homePageData.add(docs.documents[i]);
-        }
-      }
-    });
   }
 
   _getEmail() async{
@@ -114,12 +108,15 @@ class _HomePageState extends State<HomePage> {
   _getCurrentUser () async {
     mCurrentUser = await _auth.currentUser();
     print('Hello ' + mCurrentUser.uid);
+    setCurrentUser(mCurrentUser.uid);
     setState(() {
       mCurrentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
     });
     _getEmail();
     _getName();
     _getRole();
+    _getCourses();
+
   }
 
    _NavDrawerUsed() {
@@ -209,38 +206,144 @@ class _HomePageState extends State<HomePage> {
       print(e);
     }
   }
+//
 
-  //  _pageListCreator(List<>)
-  Widget _showClassDashboard(widthcard, lengthcard, key) {
+ // var schedule = [];
+  var scheduleFlag = false;
 
 
-    //initialize classlist list of dictionay classes = [{'monday':[], 'tuesday': [],
-    //TODO: would be nice if pulled through firebase
+  _getCourses  () async  {
+        await courseManager.getEnrolledCourse(mCurrentUser.uid).then((
+          QuerySnapshot docs) {
+        if (docs.documents.isNotEmpty) {
+          print('enrolled docs currently not empty');
+          scheduleFlag = true;
+          for (int i = 0; i < docs.documents.length; i++) {
+            schedule.add({'name':docs.documents[i]['Name'], 'time': docs.documents[i]['Time'], 'day': docs.documents[i]['DayOfWeek']});
+            print(schedule);
+          }
+        } else {
+          print('fuuuuckkkkkk');
+        }
+        print(schedule);
+      });
+  }
 
-    var classesSchedule = {
-      'monday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M02','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M03','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M04','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M05','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M06','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M07','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M08','9:30 AM - 11:00 AM', scaffoldKey: key) ],
-      'tuesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 280 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 285 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 290 M01','9:30 AM - 11:00 AM', scaffoldKey: key) ],
-      'wednesday': [ClassWidget(widthcard, lengthcard, 'CSCI 295 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key) ],
-      'thursday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key) ],
-      'friday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key) ],
-    };
+
+  Widget _showClassDashboard(widthcard, lengthcard, key){
+    Map<String, List<Widget>> classesSchedule = {'Monday':[],'Tuesday':[],'Wednesday':[],'Thursday':[],'Friday':[],};
+    for (int i = 0; i< schedule.length;i++){
+      if(schedule[i]['day'].length > 0){
+        for (int j =0; j<schedule[i]['day'].length; j++){
+          classesSchedule[schedule[i]['day'][j]].add(ClassWidget(widthcard, lengthcard, schedule[i]['name'], schedule[i]['time'], scaffoldKey: key),);
+        }
+      }
+      else{
+        classesSchedule[schedule[i]['day'][0]].add(ClassWidget(widthcard, lengthcard, schedule[i]['name'], schedule[i]['time'], scaffoldKey: key),);
+      }
+
+      print(classesSchedule);
+    }
+
+    var pageOne = {'header': DayPageHeader(widthcard,lengthcard, one, 'Monday'), 'classes': classesSchedule['Monday'], 'background': monday};
+    var pageTwo = {'header': DayPageHeader(widthcard,lengthcard, two, 'Tuesday'), 'classes': classesSchedule['Tuesday'], 'background': tuesday};
+    var pageThree = {'header': DayPageHeader(widthcard,lengthcard, three, 'Wednesday'), 'classes': classesSchedule['Wednesday'], 'background': wednesday};
+    var pageFour = {'header': DayPageHeader(widthcard,lengthcard, four, 'Thursday'), 'classes': classesSchedule['Thursday'], 'background': thursday};
+    var pageFive = {'header': DayPageHeader(widthcard,lengthcard, five, 'Friday'), 'classes': classesSchedule['Friday'], 'background': friday};
+    var pageListInput = [pageOne,pageTwo,pageThree, pageFour, pageFive];
+    var pages = pageListCreator(pageListInput, widthcard, lengthcard);
+
+
+    return Container(
+        decoration: new BoxDecoration(color: Color.fromRGBO(21, 23, 28,1.0)),
+        child: PageView.builder(itemBuilder: (context, position) => pages[position], itemCount: pages.length, controller: PageController(viewportFraction: 1.0, initialPage: 0)));
+
+  }
+  Widget _showHardClassDashboard(widthcard, lengthcard, key) {
+
+
+
     //initialize each page (one through five): this is a data structure that will go into the pageListCreator function to generate a list of pages for the PageView class to scroll through
     // TODO: ideally these initializations happen through firebase
 
-    var pageOne = {'header': DayPageHeader(widthcard,lengthcard, one, 'Monday'), 'classes': classesSchedule['monday'], 'background': monday};
-    var pageTwo = {'header': DayPageHeader(widthcard,lengthcard, two, 'Tuesday'), 'classes': classesSchedule['tuesday'], 'background': tuesday};
-    var pageThree = {'header': DayPageHeader(widthcard,lengthcard, three, 'Wednesday'), 'classes': classesSchedule['wednesday'], 'background': wednesday};
-    var pageFour = {'header': DayPageHeader(widthcard,lengthcard, four, 'Thursday'), 'classes': classesSchedule['thursday'], 'background': thursday};
-    var pageFive = {'header': DayPageHeader(widthcard,lengthcard, five, 'Friday'), 'classes': classesSchedule['friday'], 'background': friday};
 
+    var classesSchedule = {
+      'Monday': [
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M02', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M03', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M04', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M05', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M06', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M07', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M08', '9:30 AM - 11:00 AM',
+            scaffoldKey: key)
+      ],
+      'Tuesday': [
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 280 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 285 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 290 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key)
+      ],
+      'Wednesday': [
+        ClassWidget(widthcard, lengthcard, 'CSCI 295 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key)
+      ],
+      'Thursday': [
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key)
+      ],
+      'Friday': [
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key),
+        ClassWidget(widthcard, lengthcard, 'CSCI 255 M01', '9:30 AM - 11:00 AM',
+            scaffoldKey: key)
+      ],
+    };
+
+   var pageOne = {'header': DayPageHeader(widthcard,lengthcard, one, 'Monday'), 'classes': classesSchedule['Monday'], 'background': monday};
+    var pageTwo = {'header': DayPageHeader(widthcard,lengthcard, two, 'Tuesday'), 'classes': classesSchedule['Tuesday'], 'background': tuesday};
+    var pageThree = {'header': DayPageHeader(widthcard,lengthcard, three, 'Wednesday'), 'classes': classesSchedule['Wednesday'], 'background': wednesday};
+    var pageFour = {'header': DayPageHeader(widthcard,lengthcard, four, 'Thursday'), 'classes': classesSchedule['Thursday'], 'background': thursday};
+    var pageFive = {'header': DayPageHeader(widthcard,lengthcard, five, 'Friday'), 'classes': classesSchedule['Friday'], 'background': friday};
     var pageListInput = [pageOne,pageTwo,pageThree, pageFour, pageFive];
-
     var pages = pageListCreator(pageListInput, widthcard, lengthcard);
+
 
     return Container(
         decoration: new BoxDecoration(color: Color.fromRGBO(21, 23, 28,1.0)),
         child: PageView.builder(itemBuilder: (context, position) => pages[position], itemCount: pages.length, controller: PageController(viewportFraction: 1.0, initialPage: 0)));
   }
+//  Widget _showClassDashboard(width, len, key){
+//    return
+//  }
 
   @override
   Widget build(BuildContext context){
@@ -261,7 +364,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: _signOut)
         ],
       ),
-      body: _showClassDashboard(widthcard, lengthcard, _scaffoldKey),
+      body: scheduleFlag? _showClassDashboard(widthcard, lengthcard, _scaffoldKey):_showHardClassDashboard(widthcard, lengthcard, _scaffoldKey),
 
       drawer: _NavDrawerUsed(),
     );
