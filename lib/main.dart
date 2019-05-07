@@ -7,8 +7,12 @@ import 'package:SeniorProject/evalPage.dart';
 import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
+import 'package:SeniorProject/studentnavdrawer.dart';
+import 'package:SeniorProject/notification.dart';
+import 'eval_response.dart';
 import 'package:SeniorProject/qrScanner.dart';
 import 'package:SeniorProject/securityLog.dart';
+import 'package:SeniorProject/userLogPage.dart';
 
 
 void main() {
@@ -36,11 +40,14 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder> {
           '/qrPage' : (BuildContext context) => new NavQrPage(),
           '/evalPage' : (BuildContext context) => new EvalPage(),
+          '/evalResponsePage' : (BuildContext context) => new EvalResponse(),
           '/forumPage' : (BuildContext context) => new ForumPage(),
           '/eventPage' : (BuildContext context) => new EventPage(),
           '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
           '/qrScanner' : (BuildContext context) => new ScanScreen(),
           '/securityLog' : (BuildContext context) => new SecurityLog(),
+          '/userLog' : (BuildContext context) => new userLog(),
+          '/notiPage': (BuildContext context) => new NotificationPage(),
           '/course_selector' : (BuildContext context) => new CourseSelector(),
     },
     );

@@ -10,10 +10,7 @@ import 'package:SeniorProject/user.dart';
 import 'package:SeniorProject/studentnavdrawer.dart';
 import 'package:SeniorProject/teachernavdrawer.dart';
 import 'package:SeniorProject/securitynavdrawer.dart';
-import 'package:SeniorProject/class_widget.dart';
-import 'package:SeniorProject/studentnavdrawer.dart';
-import 'package:SeniorProject/teachernavdrawer.dart';
-import 'package:SeniorProject/securitynavdrawer.dart';
+import 'package:SeniorProject/adminnavdrawer.dart';
 
 import 'package:SeniorProject/courseManagement.dart';
 import 'package:SeniorProject/class_widget.dart';
@@ -55,7 +52,6 @@ class _HomePageState extends State<HomePage> {
   StreamSubscription<Event> _onTodoChangedSubscription;
 
   //Query _todoQuery;
-
   bool _isEmailVerified = false;
   var userManager = new UserManager();
   String usersEmail = "Searching...";

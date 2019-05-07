@@ -65,6 +65,11 @@ class _UserSettingsPage extends State<UserSettingsPage> {
         regex = new RegExp('666');
       }
       break;
+      case '111222333': {
+        newUserRole = "admin";
+        regex = new RegExp('111222333');
+      }
+      break;
       case '': {
          regex = new RegExp('');
 
@@ -155,7 +160,6 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                     validator: (value) => isValidUserCode(value) ? null : 'Not a valid code',
                     onSaved: (value) => updatedUser.role = newUserRole,
                 ),
-                new Text("Bugs suck, please hit submit button twice in order to send data.", textAlign: TextAlign.center,),
                 new Container(
                     padding: const EdgeInsets.only(left: 40.0, top: 20.0, right: 40.0),
                     child: new RaisedButton(
