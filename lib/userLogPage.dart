@@ -295,7 +295,6 @@ class _adminUserUpdateState extends State<adminUserUpdate> {
                   validator: (value) => isValidUserCode(value) ? null : 'Not a valid code',
                   onSaved: (value) => updatedUser.role = newUserRole,
                 ),
-                new Text("Bugs suck, please hit submit button twice in order to send data.", textAlign: TextAlign.center,),
                 new Container(
                     padding: const EdgeInsets.only(left: 40.0, top: 20.0, right: 40.0),
                     child: new RaisedButton(
