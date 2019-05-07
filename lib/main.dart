@@ -6,6 +6,9 @@ import 'package:SeniorProject/evalPage.dart';
 import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
+import 'package:SeniorProject/qrScanner.dart';
+import 'package:SeniorProject/securityLog.dart';
+import 'package:SeniorProject/userLogPage.dart';
 
 
 void main() {
@@ -36,6 +39,9 @@ class MyApp extends StatelessWidget {
           '/forumPage' : (BuildContext context) => new ForumPage(),
           '/eventPage' : (BuildContext context) => new EventPage(),
           '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
+          '/qrScanner' : (BuildContext context) => new ScanScreen(),
+          '/securityLog' : (BuildContext context) => new SecurityLog(),
+          '/userLog' : (BuildContext context) => new userLog(),
     },
     );
   }
