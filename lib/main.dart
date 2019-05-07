@@ -7,6 +7,7 @@ import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
 import 'package:SeniorProject/studentnavdrawer.dart';
+import 'package:SeniorProject/notification.dart';
 import 'eval_response.dart';
 import 'package:SeniorProject/qrScanner.dart';
 import 'package:SeniorProject/securityLog.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           '/qrScanner' : (BuildContext context) => new ScanScreen(),
           '/securityLog' : (BuildContext context) => new SecurityLog(),
           '/userLog' : (BuildContext context) => new userLog(),
+          '/notiPage': (BuildContext context) => new NotificationPage(),
     },
     );
   }
