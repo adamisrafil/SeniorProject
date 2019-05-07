@@ -11,11 +11,16 @@ class CourseManagement {
 
   }
 
-  updateCourseStudent (String courseName) async{
+  updateCourseStudent (String documentID, List student) async{
 
-    String ref = await Firestore.instance.collection('courses').where('Name', isEqualTo: courseName ).reference().id;
-    print(ref);
-    return ref;
+    Firestore.instance.collection('courses').document(documentID).updateData({'students': student});
+    print('Student Roster Updated');
+
+  }
+
+  Future <QuerySnapshot> getEnrolledCourse (String id) async {
+
+    return Firestore.instance.collection('courses').where('students', arrayContains:  id).getDocuments();
   }
   
   
