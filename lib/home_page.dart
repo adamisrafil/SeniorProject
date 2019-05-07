@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
@@ -11,13 +12,17 @@ import 'package:SeniorProject/securitynavdrawer.dart';
 import 'package:SeniorProject/adminnavdrawer.dart';
 
 import 'package:SeniorProject/class_widget.dart';
+import 'package:SeniorProject/studentnavdrawer.dart';
+import 'package:SeniorProject/teachernavdrawer.dart';
+import 'package:SeniorProject/securitynavdrawer.dart';
 
-
+import 'package:SeniorProject/class_widget.dart';
 import 'package:SeniorProject/root_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root})
       : super(key: key);
+
 
   final BaseAuth auth;
   final RootPage root;
@@ -26,12 +31,13 @@ class HomePage extends StatefulWidget {
   final UserManager userManager;
   final User user;
 
+
   @override
   State<StatefulWidget> createState() => new _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  //List<Todo> _todoList;
+
 
   String accountStatus = '******';
   FirebaseUser mCurrentUser;
@@ -39,6 +45,7 @@ class _HomePageState extends State<HomePage> {
   User updatedUser = new User();
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<_HomePageState> homePageKey = GlobalKey<_HomePageState>();
 
   final _textEditingController = TextEditingController();
   StreamSubscription<Event> _onTodoAddedSubscription;
@@ -51,6 +58,9 @@ class _HomePageState extends State<HomePage> {
   String usersName = "Go to settings and update";
   String usersRole = "****";
 
+  var coursesFlag = false;
+  var homePageData = [];
+
 
   @override
   void initState() {
@@ -58,7 +68,6 @@ class _HomePageState extends State<HomePage> {
     _auth = FirebaseAuth.instance;
     _getCurrentUser();
     print('here outside async');
-
     _checkEmailVerification();
   }
 
@@ -175,7 +184,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
   @override
   void dispose() {
     _onTodoAddedSubscription.cancel();
@@ -193,18 +201,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   //  _pageListCreator(List<>)
-  Widget _showClassDashboard(widthcard, lengthcard) {
+  Widget _showClassDashboard(widthcard, lengthcard, key) {
 
 
     //initialize classlist list of dictionay classes = [{'monday':[], 'tuesday': [],
     //TODO: would be nice if pulled through firebase
 
     var classesSchedule = {
-      'monday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
-      'tuesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
-      'wednesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
-      'thursday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
-      'friday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01'),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01') ],
+      'monday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M02','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M03','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M04','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M05','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M06','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M07','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M08','9:30 AM - 11:00 AM', scaffoldKey: key) ],
+      'tuesday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 280 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 285 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 290 M01','9:30 AM - 11:00 AM', scaffoldKey: key) ],
+      'wednesday': [ClassWidget(widthcard, lengthcard, 'CSCI 295 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key) ],
+      'thursday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key) ],
+      'friday': [ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key),ClassWidget(widthcard, lengthcard, 'CSCI 255 M01','9:30 AM - 11:00 AM', scaffoldKey: key) ],
     };
     //initialize each page (one through five): this is a data structure that will go into the pageListCreator function to generate a list of pages for the PageView class to scroll through
     // TODO: ideally these initializations happen through firebase
@@ -219,18 +227,22 @@ class _HomePageState extends State<HomePage> {
 
     var pages = pageListCreator(pageListInput, widthcard, lengthcard);
 
-    return PageView.builder(itemBuilder: (context, position) => pages[position], itemCount: pages.length, controller: PageController(viewportFraction: 1.0, initialPage: 0));
+    return Container(
+        decoration: new BoxDecoration(color: Color.fromRGBO(21, 23, 28,1.0)),
+        child: PageView.builder(itemBuilder: (context, position) => pages[position], itemCount: pages.length, controller: PageController(viewportFraction: 1.0, initialPage: 0)));
   }
 
   @override
   Widget build(BuildContext context){
-
-    MediaQueryData queryData =
-    MediaQuery.of(context); //get aspect ratio of screen
+    MediaQueryData queryData = MediaQuery.of(context); //get aspect ratio of screen
     final double widthcard = queryData.size.width * 0.85;
     final double lengthcard = queryData.size.height * 0.75;
+    final GlobalKey <ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return new Scaffold(
+      key: _scaffoldKey ,
       appBar: new AppBar(
+        backgroundColor: Colors.teal[800],
         title: new Text('Welcome'),
         actions: <Widget>[
           new FlatButton(
@@ -239,20 +251,8 @@ class _HomePageState extends State<HomePage> {
               onPressed: _signOut)
         ],
       ),
-      body: _showClassDashboard(widthcard, lengthcard),
-      floatingActionButton: Container(
-        height: 100.0,
-        width: 100.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              onPressed: () {},
-              backgroundColor: Colors.amberAccent,
-              child: Icon(
-                Icons.add,
-                color: Colors.black,
-              )),
-        ),
-      ),
+      body: _showClassDashboard(widthcard, lengthcard, _scaffoldKey),
+
       drawer: _NavDrawerUsed(),
     );
   }

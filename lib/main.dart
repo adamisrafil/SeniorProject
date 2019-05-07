@@ -10,13 +10,22 @@ import 'package:SeniorProject/qrScanner.dart';
 import 'package:SeniorProject/securityLog.dart';
 import 'package:SeniorProject/userLogPage.dart';
 
+
 void main() {
   runApp(new MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   @override
+
+
   Widget build(BuildContext context) {
+    ThemeData(
+      fontFamily: 'PoiretOne',
+      canvasColor: Colors.teal,
+      backgroundColor: Colors.white12,
+    );
     return new MaterialApp(
         title: 'GenZ ID',
         debugShowCheckedModeBanner: false,
