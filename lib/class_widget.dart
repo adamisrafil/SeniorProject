@@ -1,3 +1,5 @@
+import 'package:SeniorProject/coure_selector.dart';
+import 'package:SeniorProject/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
@@ -92,7 +94,6 @@ class ClassWidgetState extends State<ClassWidget> {
                           textAlign: TextAlign.left,)
                     // Change header (which is a Container widget in this case) background colour here.
                   ),
-                    leading:  Icon(Icons.developer_mode, size: 26.0) ,
                     trailing: isExpanded ? Icon(Icons.keyboard_arrow_up, size: 36.0, color: Colors.teal[500],) : Icon(Icons.keyboard_arrow_down, size: 36.0, color: Colors.black54),
                     children: <Widget>[
                       Align(
@@ -126,7 +127,7 @@ class ClassWidgetState extends State<ClassWidget> {
                                       textAlign: TextAlign.left,),
 
                                     Padding(
-                                      padding: EdgeInsets.fromLTRB(width *0.19 , 0.0, 0.0, 0.0),
+                                      padding: EdgeInsets.fromLTRB(width *0.15 , 0.0, 0.0, 0.0),
                                       child: RaisedButton(
 
                                         color: Colors.teal,
@@ -151,6 +152,7 @@ class ClassWidgetState extends State<ClassWidget> {
                                         disabledElevation: 5.0,
                                         child: Icon(Icons.close, size: 23.0, color: Colors.white),
                                         onPressed: () {
+                                          print(global_course);
                                           if (_enabledAbsent){
                                             widget.scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('you wil be marked as absent from ${this.text})', textAlign: TextAlign.center, style: TextStyle( fontFamily: 'PoiretOne', fontWeight: FontWeight.bold, color: Colors.white),),backgroundColor: Colors.redAccent, duration: Duration(milliseconds: 1400), ));
                                           }
@@ -238,17 +240,18 @@ class DayPageHeader extends StatelessWidget {
         decoration: BoxDecoration(
             image: DecorationImage(image: this.background, fit: BoxFit.fill),
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(35.0)),
-            boxShadow: [ BoxShadow(color: Colors.white30,
-              blurRadius: 5.0,
+            boxShadow: [
+              BoxShadow(color: Colors.white30,
+              blurRadius: .5,
               // has the effect of softening the shadow
               spreadRadius: 1.0,
               // has the effect of extending the shadow
               offset: Offset(0.0, 2.0,),)
             ]),
         child: Stack(children: <Widget>[ Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 100.0),
-          child: Text(this.text, style: TextStyle(fontFamily: 'Galada',
-              fontSize: this.width * 0.2,
+          padding: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 100.0),
+          child: Text(this.text, style: TextStyle(fontFamily: 'PoiretOne',
+              fontSize: this.width * 0.15,
               color: Colors.white),),),
         ]));
   }
@@ -271,7 +274,7 @@ var five = new AssetImage('assets/headerbackgrounds/five.png');
 
 // takes in a dictionary list that contains all pages to be created along with their inputs {see var pageListInput in _showClassDashboard Widget located at home_page.dart} and returns an output list if one isn't given
 // if an output list is given. then it appends to that list
-List <DayPage> pageListCreator(List pages, width, height, [List <DayPage> output]) {
+List <DayPage> pageListCreator(var pages, width, height, [List <DayPage> output]) {
   if (output == null) {
     output = new List <DayPage> ();
   }
@@ -283,4 +286,22 @@ List <DayPage> pageListCreator(List pages, width, height, [List <DayPage> output
 
   return output;
 }
+
+dynamicPageListCreator(var pages, width, height){
+  List <DayPage> out = [];
+  for (int i =0; i<pages.length; i++){
+    if (pages[i]['classes'].length == 0){
+      out.add(DayPage(width, height, pages[i]['background'], [Container()]));
+    }else{
+
+      out.add(DayPage(width, height, pages[i]['background'], pages[i]['classes']));
+    }
+  }
+
+  print(out);
+
+  return out;
+
+}
+
 

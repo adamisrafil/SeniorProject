@@ -1,3 +1,4 @@
+import 'package:SeniorProject/coure_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:SeniorProject/root_page.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           '/securityLog' : (BuildContext context) => new SecurityLog(),
           '/userLog' : (BuildContext context) => new userLog(),
           '/notiPage': (BuildContext context) => new NotificationPage(),
+          '/course_selector' : (BuildContext context) => new CourseSelector(),
     },
     );
   }
