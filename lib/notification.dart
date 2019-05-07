@@ -107,13 +107,13 @@ class _NotificationPageState extends State<NotificationPage> {
 
     var notification = OSCreateNotification(
         playerIds: [playerId],
-        content: "this is a test from OneSignal's Flutter SDK",
-        heading: "Test Notification",
+        content: "All Students Evacuate to Lincoln Center",
+        heading: "EMERGENCY ALERT",
         iosAttachments: {"id1": imgUrlString},
         bigPicture: imgUrlString,
         buttons: [
-          OSActionButton(text: "test1", id: "id1"),
-          OSActionButton(text: "test2", id: "id2")
+          OSActionButton(text: "OK", id: "id1"),
+          OSActionButton(text: "IGNORE", id: "id2")
         ]);
 
     var response = await OneSignal.shared.postNotification(notification);
