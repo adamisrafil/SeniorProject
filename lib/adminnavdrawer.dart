@@ -128,6 +128,18 @@ class _NavDrawerState extends State<AdmnNavDrawer> {
                 },
               ),
               ListTile(
+                title: Text('Evalutation Responses'),
+                leading: Icon(Icons.add_comment),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: () {
+                  // Update the state of the app
+                  // ...
+                  // Then close the drawer
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed('/evalResponsePage');
+                },
+              ),
+              ListTile(
                 title: Text('Settings'),
                 leading: Icon(Icons.settings),
                 trailing: Icon(Icons.arrow_forward),

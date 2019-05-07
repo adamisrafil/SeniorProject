@@ -115,7 +115,7 @@ class _NavDrawerState extends State<ProfNavDrawer> {
                   // ...
                   // Then close the drawer
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/evalPage');
+                  Navigator.of(context).pushNamed('/evalResponsePage');
                 },
               ),
               ListTile(

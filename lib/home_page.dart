@@ -20,7 +20,7 @@ import 'package:SeniorProject/class_widget.dart';
 import 'package:SeniorProject/root_page.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root})
+  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root, String title})
       : super(key: key);
 
 
