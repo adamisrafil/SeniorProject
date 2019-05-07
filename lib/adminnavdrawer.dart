@@ -4,8 +4,8 @@ import 'package:SeniorProject/authentication.dart';
 import 'package:SeniorProject/userManager.dart';
 import 'package:SeniorProject/user.dart';
 
-class ProfNavDrawer extends StatefulWidget {
-  ProfNavDrawer({Key key, this.auth, this.userId, this.userManager, this.user})
+class AdmnNavDrawer extends StatefulWidget {
+  AdmnNavDrawer({Key key, this.auth, this.userId, this.userManager, this.user})
       : super(key: key);
 
   final BaseAuth auth;
@@ -17,7 +17,7 @@ class ProfNavDrawer extends StatefulWidget {
 }
 
 
-class _NavDrawerState extends State<ProfNavDrawer> {
+class _NavDrawerState extends State<AdmnNavDrawer> {
 
   var userManager = new UserManager();
   FirebaseUser mCurrentUser;
@@ -98,36 +98,21 @@ class _NavDrawerState extends State<ProfNavDrawer> {
 //                  decoration: BoxDecoration(color: Colors.black87),
               ),
               ListTile(
-                title: Text("ID Scanner"),
+                title: Text("User Log"),
                 leading: Icon(Icons.person_outline),
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/qrScanner');
+                  Navigator.of(context).pushNamed('/userLog');
                 },
               ),
               ListTile(
-                title: Text('Evalutation Responses'),
-                leading: Icon(Icons.add_comment),
+                title: Text("Scan Log"),
+                leading: Icon(Icons.person_outline),
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/evalResponsePage');
-                },
-              ),
-              ListTile(
-                title: Text('NYIT Forums'),
-                leading: Icon(Icons.people_outline),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/forumPage');
+                  Navigator.of(context).pushNamed('/securityLog');
                 },
               ),
               ListTile(

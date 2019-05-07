@@ -65,6 +65,11 @@ class _UserSettingsPage extends State<UserSettingsPage> {
         regex = new RegExp('666');
       }
       break;
+      case '111222333': {
+        newUserRole = "admin";
+        regex = new RegExp('111222333');
+      }
+      break;
       case '': {
          regex = new RegExp('');
 
@@ -73,8 +78,18 @@ class _UserSettingsPage extends State<UserSettingsPage> {
     return regex.hasMatch(input);
   }
 
+  final TextEditingController controllerName = TextEditingController();
+  final TextEditingController controllerID = TextEditingController();
+  final TextEditingController controllerRole = TextEditingController();
+
   void _submitForm() {
     final FormState form = _formKey.currentState;
+
+    setState(() {
+      updatedUser.name = controllerName.text;
+      updatedUser.ID = controllerID.text;
+      updatedUser.role = newUserRole;
+    });
 
     var userManager = new UserManager();
     userManager.updateUser(updatedUser, mCurrentUser.uid);
@@ -114,6 +129,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
             child: new ListView(
               children: <Widget>[
                 new TextFormField(
+                    controller: controllerName,
                   decoration: new InputDecoration(
                     hintText: 'Name',
                     labelText: 'Your Name'
@@ -126,6 +142,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                     onSaved: (val) => updatedUser.name = val
                 ),
                 new TextFormField(
+                    controller: controllerID,
                     decoration: new InputDecoration(
                         hintText: '1234567',
                         labelText: 'ID number'
@@ -134,6 +151,7 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                     onSaved: (val) => updatedUser.ID = val
                 ),
                 new TextFormField(
+                  controller: controllerRole,
                     obscureText: true,
                     decoration: new InputDecoration(
                         hintText: 'User Role Code',
@@ -142,7 +160,6 @@ class _UserSettingsPage extends State<UserSettingsPage> {
                     validator: (value) => isValidUserCode(value) ? null : 'Not a valid code',
                     onSaved: (value) => updatedUser.role = newUserRole,
                 ),
-                new Text("Bugs suck, please hit submit button twice in order to send data.", textAlign: TextAlign.center,),
                 new Container(
                     padding: const EdgeInsets.only(left: 40.0, top: 20.0, right: 40.0),
                     child: new RaisedButton(
