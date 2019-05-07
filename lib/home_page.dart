@@ -14,12 +14,11 @@ import 'package:SeniorProject/studentnavdrawer.dart';
 import 'package:SeniorProject/teachernavdrawer.dart';
 import 'package:SeniorProject/securitynavdrawer.dart';
 
-import 'package:SeniorProject/courseManagement.dart';
 import 'package:SeniorProject/class_widget.dart';
 import 'package:SeniorProject/root_page.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root, this.courseManagement})
+  HomePage({Key key, this.auth, this.userId, this.onSignedOut, this.userManager, this.user, this.root})
       : super(key: key);
 
 
@@ -30,7 +29,6 @@ class HomePage extends StatefulWidget {
   final UserManager userManager;
   final User user;
 
-  final CourseManagement courseManagement;
 
   @override
   State<StatefulWidget> createState() => new _HomePageState();
@@ -59,7 +57,6 @@ class _HomePageState extends State<HomePage> {
   String usersName = "Go to settings and update";
   String usersRole = "****";
 
-  var courseManager = new CourseManagement();
   var coursesFlag = false;
   var homePageData = [];
 
@@ -71,16 +68,6 @@ class _HomePageState extends State<HomePage> {
     _getCurrentUser();
     print('here outside async');
     _checkEmailVerification();
-
-    courseManager.getCoursesList().then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        coursesFlag = true;
-
-        for (int i = 0; i < docs.documents.length; i++){
-          homePageData.add(docs.documents[i]);
-        }
-      }
-    });
   }
 
   _getEmail() async{

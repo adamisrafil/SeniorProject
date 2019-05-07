@@ -55,7 +55,7 @@ class Calendar extends StatefulWidget {
   _CalendarState createState() => new _CalendarState();
 }
 
-class _CalendarState extends State<Calendar> {
+class _CalendarState extends State <Calendar> {
   final calendarUtils = new Utils();
   List<DateTime> selectedMonthsDays;
   Iterable<DateTime> selectedWeeksDays;
@@ -234,7 +234,7 @@ class _CalendarState extends State<Calendar> {
           )
       );
 
-      dateStyles = monthStarted && !monthEnded ? body1Style: body1StyleDisabled; // monthStarted & !monthEnded happens then first one otherwise second one
+      dateStyles = monthStarted && !monthEnded ? body1Style: body1StyleDisabled; // monthStarted & monthEnded happens then first one otherwise second one
     } else
     {
       dateStyles = body1Style;
@@ -397,7 +397,7 @@ class _CalendarState extends State<Calendar> {
     }
   }
 
-  Future<Null> selectDateFromPicker() async {
+  Future <Null> selectDateFromPicker() async {
     DateTime selected = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? new DateTime.now(),
@@ -417,7 +417,7 @@ class _CalendarState extends State<Calendar> {
         selectedMonthsDays = Utils.daysInMonth(selected);
         displayMonth = Utils.formatMonth(selected);
       });
-      // updating selected date range based on selected week
+
       updateSelectedRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek);
       _launchDateSelectionCallback(selected);
     }

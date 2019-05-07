@@ -61,7 +61,6 @@ flutter:
   assets:
   - assets/nyitlogo.png
   - assets/gen_icon.png
-  - assets/selector.png
 
   - assets/cal_Backgrounds/monday.jpg
   - assets/cal_Backgrounds/tuesday.jpg

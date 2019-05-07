@@ -1,4 +1,3 @@
-import 'package:SeniorProject/coure_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:SeniorProject/authentication.dart';
 import 'package:SeniorProject/root_page.dart';
@@ -7,8 +6,6 @@ import 'package:SeniorProject/evalPage.dart';
 import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
-import 'package:SeniorProject/qrScanner.dart';
-import 'package:SeniorProject/securityLog.dart';
 
 
 void main() {
@@ -39,9 +36,6 @@ class MyApp extends StatelessWidget {
           '/forumPage' : (BuildContext context) => new ForumPage(),
           '/eventPage' : (BuildContext context) => new EventPage(),
           '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
-          '/qrScanner' : (BuildContext context) => new ScanScreen(),
-          '/securityLog' : (BuildContext context) => new SecurityLog(),
-          '/course_selector' : (BuildContext context) => new CourseSelector(),
     },
     );
   }

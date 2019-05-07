@@ -14,16 +14,91 @@ class _EventPageState extends State<EventPage> {
   @override
   void initstate() {
     super.initState();
-    selectedEvents = events[selectedDate] ?? [];
+    selectedEvents = events[selectedDate];
   }
 
   final Map events = {
-    DateTime(2019, 5, 1):
-    [{'name': 'May Day', 'isDone': true}],
+    DateTime(2019, 1, 1):
+    [{'name': 'New Years Day 2019', 'isDone': true}],
+
+    DateTime(2019, 1, 21):
+    [{'name': 'Dr. Martin Luther King Day', 'isDone': true}],
+
+    DateTime(2019, 2, 2):
+    [{'name': 'Groundhog Day', 'isDone': true}],
+
+    DateTime(2019, 2, 12):
+    [{'name': 'President Lincoln Birthday', 'isDone': true}],
+
+    DateTime(2019, 2, 14):
+    [{'name': 'Valentines Day', 'isDone': true}],
+
+    DateTime(2019, 2, 18):
+    [{'name': 'Presidents Day', 'isDone': true}],
+
+    DateTime(2019, 3, 10):
+    [{'name': 'Daylight Savings', 'isDone': true}],
+
+    DateTime(2019, 3, 17):
+    [{'name': 'St. Patricks Day', 'isDone': true}],
+
+    DateTime(2019, 4, 1):
+    [{'name': 'April Fools Day', 'isDone': true}],
+
+    DateTime(2019, 4, 19):
+    [{'name': 'Good Friday', 'isDone': true}],
+
+    DateTime(2019, 4, 21):
+    [{'name': 'Easter Sunday', 'isDone': true}],
+
+    DateTime(2019, 5, 5):
+    [{'name': 'Cinco de Mayo', 'isDone': true}],
+
+    DateTime(2019, 5, 5):
+    [{'name': 'Cinco de Mayo', 'isDone': true}],
+
+    DateTime(2019, 5, 12):
+    [{'name': 'Mothers Day', 'isDone': true}],
+
     DateTime(2019, 5, 27):
     [{'name': 'Memorial Day', 'isDone': true}],
-    DateTime(2019, 5, 8):
-    [{'name': 'Senior Design Presentation 10AM-12PM', 'isDone': true}]
+
+    DateTime(2019, 6, 16):
+    [{'name': 'Fathers Day', 'isDone': true}],
+
+    DateTime(2019, 7, 4):
+    [{'name': 'Independence Day', 'isDone': true}],
+
+    DateTime(2019, 9, 2):
+    [{'name': 'Labor Day', 'isDone': true}],
+
+    DateTime(2019, 10, 14):
+    [{'name': 'Columbus Day', 'isDone': true}],
+
+    DateTime(2019, 10, 31):
+    [{'name': 'Halloween', 'isDone': true}],
+
+    DateTime(2019, 11, 3):
+    [{'name': 'Daylight Savings', 'isDone': true}],
+
+    DateTime(2019, 11, 11):
+    [{'name': 'Veterans Day', 'isDone': true}],
+
+    DateTime(2019, 11, 28):
+    [{'name': 'Thanksgiving Day', 'isDone': true}],
+
+    DateTime(2019, 11, 29):
+    [{'name': 'Black Friday', 'isDone': true}],
+
+    DateTime(2019, 12, 25):
+    [{'name': 'Christmas Day', 'isDone': true}],
+
+    DateTime(2019, 12, 31):
+    [{'name': 'New Years Eve', 'isDone': true}],
+
+    DateTime(2020, 11, 1):
+    [{'name': 'New Years Day 2020', 'isDone': true}],
+
   };
 
   final nameController = TextEditingController();
@@ -52,11 +127,13 @@ class _EventPageState extends State<EventPage> {
         brightness: Brightness.light,
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       home: new Scaffold(
         appBar: new AppBar(
             title: new Text('My Calendar'),
             leading: IconButton(icon:Icon(Icons.arrow_back),
               onPressed:() => Navigator.pop(context, false),
+
             )
         ),
 
