@@ -123,6 +123,8 @@ class _HomePageState extends State<HomePage> {
       break;
       case "security": { return SecNavDrawer(); }
       break;
+      case "admin": { return AdmnNavDrawer(); }
+      break;
     }
   }
 
