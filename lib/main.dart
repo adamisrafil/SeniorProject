@@ -7,6 +7,7 @@ import 'package:SeniorProject/forumPage.dart';
 import 'package:SeniorProject/eventPage.dart';
 import 'package:SeniorProject/userSettingsPage.dart';
 import 'package:SeniorProject/studentnavdrawer.dart';
+import 'eval_response.dart';
 
 void main() {
   runApp(new MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder> {
           '/qrPage' : (BuildContext context) => new NavQrPage(),
           '/evalPage' : (BuildContext context) => new EvalPage(),
+          '/evalResponsePage' : (BuildContext context) => new EvalResponse(),
           '/forumPage' : (BuildContext context) => new ForumPage(),
           '/eventPage' : (BuildContext context) => new EventPage(),
           '/userSettingsPage' : (BuildContext context) => new UserSettingsPage(),
