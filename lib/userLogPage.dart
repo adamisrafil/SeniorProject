@@ -204,9 +204,6 @@ class _adminUserUpdateState extends State<adminUserUpdate> {
         regex = new RegExp('admin');
       }
       break;
-      case '': {
-        regex = new RegExp('');
-      }
     }
     return regex.hasMatch(input);
   }
@@ -287,10 +284,9 @@ class _adminUserUpdateState extends State<adminUserUpdate> {
                 ),
                 new TextFormField(
                   controller: controllerRole,
-                  obscureText: true,
                   decoration: new InputDecoration(
                     hintText: 'User Role Code',
-                    labelText: 'Enter code (for faculty and staff only)',
+                    labelText: 'Enter user role',
                   ),
                   validator: (value) => isValidUserCode(value) ? null : 'Not a valid code',
                   onSaved: (value) => updatedUser.role = newUserRole,
@@ -302,7 +298,6 @@ class _adminUserUpdateState extends State<adminUserUpdate> {
                       onPressed: _submitForm,
                     )
                 ),
-                new Text("Changes will take effect next time you close and reopen app.", textAlign: TextAlign.center,),
               ],
             )
         ),
